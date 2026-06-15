@@ -1,4 +1,6 @@
-Notes.txt
+notes.txt
+developernotes.md
+project_structure.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
