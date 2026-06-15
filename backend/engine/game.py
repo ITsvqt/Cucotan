@@ -17,3 +17,11 @@ class Game:
             (self.state.current_player + 1)
             % len(self.state.players)
         )
+        
+    def roll_dice(self, player_id: int):
+        import random
+
+        dice = (random.randint(1, 6), random.randint(1, 6))
+        self.state.dice = dice
+
+        return dice
