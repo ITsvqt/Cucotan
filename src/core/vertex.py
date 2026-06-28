@@ -17,8 +17,7 @@ class Vertex:
         adjacent_hexes:    tuple[Hex, ...],
         adjacent_vertices: tuple[Vertex, ...],
         adjacent_edges:    tuple[Edge, ...]) -> None:
-        """
-            Called once by Board after all vertices and edges are created
+        """Called once by Board after all vertices and edges are created
         """
         
         self._adjacent_hexes    = adjacent_hexes

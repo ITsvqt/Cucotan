@@ -4,36 +4,36 @@ from enum import Enum, auto
 class Terrain(Enum):
     """ The seven terrain types a hex can """
     
-    HILL     = auto()
-    FOREST   = auto()
-    PASTURE  = auto()
-    FIELD    = auto()
-    MOUNTAIN = auto()
-    DESERT  = auto()
-    SEA      = auto()
+    HILL     = 'Hill'
+    FOREST   = 'Forest'
+    PASTURE  = 'Pasture'
+    FIELD    = 'Field'
+    MOUNTAIN = 'Mountain'
+    DESERT   = 'Desert'
+    SEA      = 'Sea'
     
 class Resource(Enum):
     """ The five tradeable resources in the game. """
-    CLAY    = auto()
-    WOOD   = auto()
-    SHEEP    = auto()
-    GRAIN    = auto()
-    ORE      = auto()
+    CLAY     = 'Clay'
+    WOOD     = 'Wood'
+    SHEEP    = 'Sheep'
+    GRAIN    = 'Grain'
+    ORE      = 'Ore'
     
 class PortType(Enum):
     """ Port trade ratios available on the board edge. """
-    CLAY    = auto()  # auto():auto()
-    WOOD   = auto()  # auto():auto()
-    SHEEP    = auto()  # auto():auto()
-    GRAIN    = auto()  # auto():auto()
-    ORE      = auto()  # auto():auto()
-    GENERIC  = auto()  # auto():auto()
+    CLAY     = 'Clay'  # auto():auto()
+    WOOD     = 'Wood'  # auto():auto()
+    SHEEP    = 'Sheep'  # auto():auto()
+    GRAIN    = 'Grain'  # auto():auto()
+    ORE      = 'Ore'  # auto():auto()
+    GENERIC  = 'Generic'  # auto():auto()
 
 
 class BuildingType(Enum):
     """ What can be placed on a vertex. """
-    SETTLEMENT = auto()
-    CITY       = auto()
+    SETTLEMENT = 'Settlement'
+    CITY       = 'City'
     
 class GamePhase(Enum):
     """Top-level phases the game engine moves through."""

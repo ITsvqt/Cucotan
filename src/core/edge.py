@@ -16,15 +16,14 @@ class Edge:
         adjacent_hexes:    tuple[Hex, ...],
         adjacent_vertices: tuple[Vertex, Vertex],
         adjacent_edges:    tuple[Edge, ...]) -> None:
-        """
-            Called once by Board after all vertices and edges are created
+        """Called once by Board after all vertices and edges are created
         """
     
         self._adjacent_hexes    = adjacent_hexes
         self._adjacent_vertices = adjacent_vertices
         self._adjacent_edges    = adjacent_edges   
         
-## PROPERTIES
+    #* PROPERTIES
     @property
     def edge_id(self):
         return self._edge_id
@@ -38,7 +37,7 @@ class Edge:
     def adjacent_edges(self):
         return self._adjacent_edges
     
-## DUNDER
+    #* DUNDER
     def __repr__(self) -> str:
         return f"Edge({self._edge_id})"
 
