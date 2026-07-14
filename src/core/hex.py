@@ -11,7 +11,15 @@ class Hex:
     """ Terrain tile. Produces resource when its number is rolled. """
     
     
-    def __init__(self, hex_id:int, terrain: Terrain, number: int | None, port: PortType | None):
+    def __init__(
+        self,
+        hex_id: int,
+        terrain: Terrain,
+        number: int | None, # None-> Desert or Sea
+        port: PortType | None,
+        q: int, # left, right
+        r: int, # diagonal
+        ):
         
         # For serialization in state
         
@@ -19,6 +27,13 @@ class Hex:
         self._terrain: Terrain = terrain
         self._number: int | None = number   # None for the desert and sea, 2–12 otherwise
         self._port: PortType | None = port  # for sea hex with port
+        
+        self._q = q
+        self._r = r
+        self._s = -(q + r) #derived
+        
+        # deffensive assert 
+        assert self._q + self._r + self._s == 0, f"Invalid cube coordinates: q={self._q} r={self._r} s={self._s}"
               
         self._vertices: tuple[Vertex, ...] = () # 6 for land, fewer for sea's outer ring
         self._edges:    tuple[Edge  , ...] = () # same count as vertices
@@ -60,6 +75,15 @@ class Hex:
     @property
     def port(self):
         return self._port
+    @property
+    def q(self):
+        return self._q
+    @property
+    def r(self):
+        return self._r    
+    @property
+    def s(self):
+        return self._s
     @property
     def vertices(self):
         return self._vertices
