@@ -7,6 +7,7 @@ class Edge:
     
     """ This is the road. """
     
+    
     def __init__(self, edge_id: int):
         
         # For serialization in state
