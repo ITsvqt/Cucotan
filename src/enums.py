@@ -2,7 +2,7 @@ from enum import Enum, auto
 
 
 class Terrain(Enum):
-    """ The seven terrain types a hex can """
+    """ The seven terrain types a hex can be. """
     
     HILL     = 'Hill'
     FOREST   = 'Forest'
@@ -36,7 +36,7 @@ class BuildingType(Enum):
     CITY       = 'City'
     
 class GamePhase(Enum):
-    """Top-level phases the game engine moves through."""
+    """ Top-level phases the game engine moves through. """
     SETUP_FORWARD  = auto()   # placement round auto() (first player → last)
     SETUP_BACKWARD = auto()   # placement round auto() (last player → first)
     MAIN           = auto()   # normal turns

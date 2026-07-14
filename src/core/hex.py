@@ -7,21 +7,28 @@ if TYPE_CHECKING:
     
 
 class Hex:
+    
+    """ Terrain tile. Produces resource when its number is rolled. """
+    
+    
     def __init__(self, hex_id:int, terrain: Terrain, number: int | None, port: PortType | None):
-        # for serialization in state
+        
+        # For serialization in state
+        
         self._hex_id: int = hex_id 
         self._terrain: Terrain = terrain
-        self._number: int | None = number           # None for the desert and sea, 2–12 otherwise
+        self._number: int | None = number   # None for the desert and sea, 2–12 otherwise
         self._port: PortType | None = port  # for sea hex with port
               
-        self._vertices: tuple[Vertex, ...] = () # 6 for land, fewer for sea outer ring
+        self._vertices: tuple[Vertex, ...] = () # 6 for land, fewer for sea's outer ring
         self._edges:    tuple[Edge  , ...] = () # same count as vertices
     
     def wire(self,
         adjacent_vertices: tuple[Vertex, ...],
-        adjacent_edges:    tuple[Edge, ...]) -> None:
-        """Called once by Board after all vertices and edges are created
-        """
+        adjacent_edges:    tuple[Edge, ...]
+        ) -> None:
+        
+        """ Called once by Board after all vertices and edges are created. """
         
         self._adjacent_vertices = adjacent_vertices
         self._adjacent_edges    = adjacent_edges    

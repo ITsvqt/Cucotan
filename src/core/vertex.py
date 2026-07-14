@@ -4,21 +4,34 @@ if TYPE_CHECKING:
     from core.edge import Edge
 
 class Vertex:
+
+    """ This is where houses and cities are build. """
+    
+    
     def __init__(self, vertex_id: int):
+        
+        # For serialization in state
         self._vertex_id = vertex_id
-        # hexagons vertex is placed upon
-        self._adjacent_hexes: tuple[Hex, ...] = ()      # max 3 (corner vertices touch less)
-        # neighbors 2 or 3 
-        self._adjacent_vertices: tuple[Vertex, ...] = () # 2 or 3
-        # path to neighbors (same as neighbors count)
-        self._adjacent_edges: tuple[Edge, ...]  = ()     # same as vertices 
+        
+        # Corners of every hex the vertex touches
+        # Allways 3, but they might me sea if in the corner        
+        self._adjacent_hexes: tuple[Hex, ...] = ()
+        
+        # Every vertex knows which vertices are his neighbours
+        # 2 or 3
+        self._adjacent_vertices: tuple[Vertex, ...] = ()
+        
+        # path to neighbors (same count as vertices )
+        self._adjacent_edges: tuple[Edge, ...]  = ()
+        
         
     def wire(self,
         adjacent_hexes:    tuple[Hex, ...],
         adjacent_vertices: tuple[Vertex, ...],
-        adjacent_edges:    tuple[Edge, ...]) -> None:
-        """Called once by Board after all vertices and edges are created
-        """
+        adjacent_edges:    tuple[Edge, ...]
+        ) -> None:
+        
+        """ Called once by Board after all vertices and edges are created. """
         
         self._adjacent_hexes    = adjacent_hexes
         self._adjacent_vertices = adjacent_vertices

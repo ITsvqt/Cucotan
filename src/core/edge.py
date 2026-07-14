@@ -4,20 +4,34 @@ if TYPE_CHECKING:
     from core.hex import Hex
 
 class Edge:
+    
+    """ This is the road. """
+    
     def __init__(self, edge_id: int):
+        
+        # For serialization in state
         self._edge_id = edge_id
-        # hexagons edge connects
-        self._adjacent_hexes: tuple[Hex, ...] = ()         # 1 or 2
-        self._adjacent_vertices: tuple[Vertex, Vertex] = () # always 2
-        # all possible edges from the 2 vertices it connects( excluding self )
-        self._adjacent_edges: tuple[Edge, ...] = ()        # 2, 3 or 4
+        
+        # The 2 hexes the road touches 
+        # (it would be 1 or 2 if sea was not an actuall hex)
+        # (ONLY USED FOR FINDING THE OUTLINE OF THE BOARD)
+        self._adjacent_hexes: tuple[Hex, ...] = ()
+        
+        # Every edge connects 2 vertex
+        self._adjacent_vertices: tuple[Vertex, Vertex] = ()
+        
+        # Other edges coming after self
+        # From 2 to 4
+        # All possible edges from the 2 vertices it connects( excluding self )
+        self._adjacent_edges: tuple[Edge, ...] = ()
         
     def wire(self,
         adjacent_hexes:    tuple[Hex, ...],
         adjacent_vertices: tuple[Vertex, Vertex],
-        adjacent_edges:    tuple[Edge, ...]) -> None:
-        """Called once by Board after all vertices and edges are created
-        """
+        adjacent_edges:    tuple[Edge, ...]
+        ) -> None:
+        
+        """ Called once by Board after all vertices and edges are created. """
     
         self._adjacent_hexes    = adjacent_hexes
         self._adjacent_vertices = adjacent_vertices
