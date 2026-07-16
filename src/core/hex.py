@@ -32,7 +32,7 @@ class Hex:
         self._r = r
         self._s = -(q + r) #derived
         
-        # deffensive assert 
+        # deffensive assert to catch wrong __init__ modifications for the cordinates logic
         assert self._q + self._r + self._s == 0, f"Invalid cube coordinates: q={self._q} r={self._r} s={self._s}"
               
         self._vertices: tuple[Vertex, ...] = () # 6 for land, fewer for sea's outer ring

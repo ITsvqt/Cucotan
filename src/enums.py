@@ -1,5 +1,10 @@
 from enum import Enum, auto
 
+"""
+    This is the language for custom types.
+    Everyting the static game data and dynamic game state data will speak.
+"""
+
 
 class Terrain(Enum):
     """ The seven terrain types a hex can be. """
