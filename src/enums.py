@@ -9,13 +9,13 @@ from enum import Enum, auto
 class Terrain(Enum):
     """ The seven terrain types a hex can be. """
     
-    HILL     = 'Hill'
-    FOREST   = 'Forest'
-    PASTURE  = 'Pasture'
-    FIELD    = 'Field'
-    MOUNTAIN = 'Mountain'
-    DESERT   = 'Desert'
-    SEA      = 'Sea'
+    HILL     = 'Hill'     # clay
+    FOREST   = 'Forest'   # wood
+    PASTURE  = 'Pasture'  # sheep
+    FIELD    = 'Field'    # wheat
+    MOUNTAIN = 'Mountain' # ore
+    DESERT   = 'Desert'   # none
+    SEA      = 'Sea'      # none
     
 class Resource(Enum):
     """ The five tradeable resources in the game. """
