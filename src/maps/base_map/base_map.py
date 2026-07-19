@@ -1,11 +1,10 @@
 
 
-from core.hex import Hex
 from typing import TYPE_CHECKING
-from enums import Terrain
+from shared.enums import Terrain
 
 if TYPE_CHECKING:
-    from enums import PortType
+    from shared.enums import PortType
 
 class BaseMap:
     
@@ -72,8 +71,8 @@ class BaseMap:
         
         # Expected values for generation
         self._cnt_hexes = cnt_hex
-        self._cnt_vertices = cnt_vertex
-        self._cnt_edges = cnt_edge
+        self._cnt_vertex = cnt_vertex
+        self._cnt_edge = cnt_edge
         
         
     # DUNDER
@@ -105,6 +104,18 @@ class BaseMap:
     @property
     def sea_hexes_cordinates(self):
         return self._sea_hexes_cordinates
+    @property
+    def hexes_cordinates(self):
+        return self._land_hexes_cordinates | self._sea_hexes_cordinates
+    @property
+    def cnt_hex(self):
+        return self._cnt_hexes
+    @property
+    def cnt_vertex(self):
+        return self._cnt_vertex
+    @property
+    def cnt_edge(self):
+        return self._cnt_edge
     
 
     # PRIVATE STATIC METHODS

@@ -1,5 +1,5 @@
 
-from enums import Terrain, PortType
+from shared.enums import Terrain, PortType
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.vertex import Vertex
@@ -13,32 +13,31 @@ class Hex:
     
     def __init__(
         self,
-        hex_id: int,
+        hex_id: int, 
         q: int, # left, right
         r: int, # diagonal
-        terrain: Terrain,
-        number: int | None, # None-> Desert or Sea
-        port: PortType | None
+        terrain = None
         ):
         
-        # For serialization in state
+        self._vertices: tuple[Vertex, ...] = () # 6 for land, fewer for sea's outer ring
+        self._edges:    tuple[Edge  , ...] = () # same count as vertices
         
         self._hex_id: int = hex_id 
-        self._terrain: Terrain = terrain
-        self._number: int | None = number   # None for the desert and sea, 2–12 otherwise
-        self._port: PortType | None = port  # for sea hex with port
-        
         self._q = q
         self._r = r
         self._s = -(q + r) #derived
+
+        self._terrain: Terrain = terrain
+        self._number: int | None = None   # None for the desert and sea, 2–12 otherwise
+        self._port: PortType | None = None  # for sea hex with port
         
-        #* test print
-        # print(f"q: {q}, r: {r}, s: {self._s}, SUM: {q+r+self._s}")
+
+        
+        
         # deffensive assert to catch wrong __init__ modifications for the cordinates logic
         assert self._q + self._r + self._s == 0, f"Invalid cube coordinates: q={self._q} r={self._r} s={self._s}"
               
-        self._vertices: tuple[Vertex, ...] = () # 6 for land, fewer for sea's outer ring
-        self._edges:    tuple[Edge  , ...] = () # same count as vertices
+
     
     def wire(self,
         adjacent_vertices: tuple[Vertex, ...],
