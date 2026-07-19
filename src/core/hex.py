@@ -14,11 +14,11 @@ class Hex:
     def __init__(
         self,
         hex_id: int,
-        terrain: Terrain,
-        number: int | None, # None-> Desert or Sea
-        port: PortType | None,
         q: int, # left, right
         r: int, # diagonal
+        terrain: Terrain,
+        number: int | None, # None-> Desert or Sea
+        port: PortType | None
         ):
         
         # For serialization in state
@@ -32,6 +32,8 @@ class Hex:
         self._r = r
         self._s = -(q + r) #derived
         
+        #* test print
+        # print(f"q: {q}, r: {r}, s: {self._s}, SUM: {q+r+self._s}")
         # deffensive assert to catch wrong __init__ modifications for the cordinates logic
         assert self._q + self._r + self._s == 0, f"Invalid cube coordinates: q={self._q} r={self._r} s={self._s}"
               
