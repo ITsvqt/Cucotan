@@ -1,5 +1,5 @@
 
-from core.maps.base_map_class.base_map import BaseMap
+from maps.base_map_class.base_map import BaseMap
 from enums import Terrain, PortType
 
 class ClassicMap(BaseMap):
@@ -16,11 +16,11 @@ class ClassicMap(BaseMap):
     _CNT_DESERT   = 1  # no resource
     _CNT_LAND_HEX = 19 # expected to match the sum of all different land tiles
     _LAND_HEXES_CORDINATES = {
-                (-1,-2),( 0,-2),(1,-2),
-            (-2,-1),(-1,-1),(0,-1),(1,-1),
+                (0,-2),( 1,-2),(2,-2),
+            (-1,-1),(0,-1),(1,-1),(2,-1),
         (-2, 0),(-1, 0),(0, 0),(1, 0),(2,0),
             (-2, 1),(-1, 1),(0, 1),(1, 1),
-                (-1, 2),( 0, 2),(1, 2)
+                (-2, 2),( -1, 2),(0, 2)
     }
     _TERRAIN_POOL = (
         [Terrain.FOREST]     * _CNT_FOREST
@@ -33,21 +33,21 @@ class ClassicMap(BaseMap):
     
       # NUMBERS
     _CNT_NUMBER = _CNT_LAND_HEX - _CNT_DESERT 
-    _RESOURCE_NUMBERS_POOL = (
+    _NUMBERS_POOL = (
         [3, 4, 5, 6, 8, 9, 10, 11] * 2
         + [2, 12] * 1
     )
     
       # SEA
     _CNT_SEA_HEX = 18
-    _SEA_HEXES_CORDINATE = {
-        (0,-3),(1,-3),(2,-3),(3,-3),
-        (3,-2),(3,-1),
-        (2,1),(1,2),(0,3),
-        (-1,3),(-2,3),(-3,3),
-        (-3,2),(-3,1),
-        (-2,-1),(-1,-2),
-        (-1,-3),(2,-2)
+    _SEA_HEXES_CORDINATES = {
+            (0,-3),(1,-3),(2,-3),(3,-3),
+          (-1,-2),                  (3,-2),
+        (-2, -1),                    (3, -1),
+       (-3, 0),                        (3, 0),
+         (-3, 1),                    (2, 1),
+          (-3, 2),                  (1, 2),
+            (-3,3),(-2,3),(-1,3),(0,3)
     }
     
       # PORTS
@@ -55,18 +55,18 @@ class ClassicMap(BaseMap):
     CNT_PORT_PER_RESOUCE = 1
     _CNT_PORT     = 9  # 4 generic + 1 for each resource
     _PORTS_POOL = (
-        [PortType.GENERIC] * CNT_GENERIC_PORT,
-        [PortType.CLAY] * CNT_PORT_PER_RESOUCE,
-        [PortType.WOOD] * CNT_PORT_PER_RESOUCE,
-        [PortType.SHEEP] * CNT_PORT_PER_RESOUCE,
-        [PortType.GRAIN] * CNT_PORT_PER_RESOUCE,
-        [PortType.ORE] * CNT_PORT_PER_RESOUCE
+        [PortType.GENERIC] * CNT_GENERIC_PORT
+        + [PortType.CLAY] * CNT_PORT_PER_RESOUCE
+        + [PortType.WOOD] * CNT_PORT_PER_RESOUCE
+        + [PortType.SHEEP] * CNT_PORT_PER_RESOUCE
+        + [PortType.GRAIN] * CNT_PORT_PER_RESOUCE
+        + [PortType.ORE] * CNT_PORT_PER_RESOUCE
     )
     
       # GENERATION VALIDATION
-    CNT_HEX = _CNT_LAND_HEX + _CNT_SEA_HEX # 37
-    CNT_VERTEX = 0 # Todo: calculate
-    CNT_EDGE = 0   # Todo: calculate
+    _CNT_HEX = _CNT_LAND_HEX + _CNT_SEA_HEX # 37
+    _CNT_VERTEX = 0 # Todo: calculate
+    _CNT_EDGE = 0   # Todo: calculate
     
     def __init__(self):
         super().__init__(
@@ -74,9 +74,12 @@ class ClassicMap(BaseMap):
             self._LAND_HEXES_CORDINATES,
             self._TERRAIN_POOL,
             self._CNT_NUMBER,
-            self._RESOURCE_NUMBERS_POOL,
+            self._NUMBERS_POOL,
             self._CNT_SEA_HEX,
-            self._SEA_HEXES_CORDINATE,
+            self._SEA_HEXES_CORDINATES,
             self._CNT_PORT,
-            self._PORTS_POOL
+            self._PORTS_POOL,
+            self._CNT_HEX,
+            self._CNT_VERTEX,
+            self._CNT_EDGE
         )
