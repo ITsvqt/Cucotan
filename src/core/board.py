@@ -51,21 +51,17 @@ class Board:
         self._hexes:    dict[int, Hex] = {}
         self._vertices: dict[int, Vertex] = {}
         self._edges:    dict[int, Edge] = {}
-        self._hex_map:  dict[tuple[int, int], Hex] = {}  # (q, r) Hex for neigbor lookup
-        self._corner_map: dict[frozenset, Vertex] = {}
-        self._edge_map:   dict[frozenset, Edge]   = {}
+        self._hex_map:  dict[tuple[int, int], Hex] = {}  # (cords of the hex)
+        self._corner_map: dict[frozenset, Vertex] = {}   # (cords of 3 hexes the vertex is on)
+        self._edge_map:   dict[frozenset, Edge]   = {}   # (ids of 2 vertices the edge connects)
         
         self._build()
-        
         self._ensure_valid_build()
-
-        # Board generation
-        # self._hexes: list[Hex] = self._create_hexes(land_hexes_cordinates)
     
     def _build(self):
         self._create_hexes()
         self._create_vertices_and_edges()
-        self._wire_all()
+        self._wire_vertices_and_edges()
     
     def _create_hexes(self):
   
@@ -92,6 +88,7 @@ class Board:
         vertex_id = 0
         edge_id = 0
         
+        # deduplication
         corner_map: dict[frozenset, Vertex] = {}
         edge_map  : dict[frozenset, Edge  ] = {}
 
@@ -99,7 +96,10 @@ class Board:
         for hex in land_hexes:
             q, r = hex.q, hex.r
             
+            # save each vertex to create edges between them
+            # even if not created (map saves already created edges between vertices)
             hex_corners: list[Vertex] = []
+            #* CREATING VERTICES
             for dir_a, dir_b in self.CORNER_NEIGHBORS:
                 dqa, dra = self.DIRECTIONS[dir_a]
                 dqb, drb = self.DIRECTIONS[dir_b]
@@ -113,10 +113,17 @@ class Board:
                     self._vertices[vertex_id] = v
                     vertex_id += 1
 
+                # unique key for each vertex (the cordinates of 3 hexes it is on)
                 hex_corners.append(corner_map[key])
             
+            # save each edges to wire them with the hex
+            # even if not created (creation is unique, referencing them is duplicate within hexes)
+            hex_edges = []
+            #* CREATING EDGES
             for i, j in self.EDGE_PAIRS:
                 v1, v2 = hex_corners[i], hex_corners[j]
+                
+                # 2 vertices that edge connect
                 key = frozenset([v1.vertex_id, v2.vertex_id])
 
                 if key not in edge_map:
@@ -124,19 +131,28 @@ class Board:
                     edge_map[key] = e
                     self._edges[edge_id] = e
                     edge_id += 1
+                hex_edges.append(edge_map[key])
+            
+            # wire the hex on the spot
+            # since it doesn't require future iterations like vertices and edges
+            hex.wire(tuple(hex_corners, tuple(hex_edges)))
                     
         self._corner_map = corner_map
         self._edge_map = edge_map
                     
-    def _wire_all(self):
-        pass
+    def _wire_vertices_and_edges(self):
+        # WIRING VERTICES
+        
+        for vertex in self._vertices:
             
-
+        # WIRING EDGES
+        
+        
             
         
             
             
-            
+    # VALIDATION METHODS       
     def _ensure_valid_build(self):
         loctn_msg = self._INIT_ERROR_KEY
         if len(self._hexes) != self._game_map.cnt_hex:
@@ -157,12 +173,6 @@ class Board:
                 f"Exp : [{self._game_map.cnt_edge}]\n"
                 f"Actl: [{len(self._edges)}]"
             )
-    
-    # def _build(self):
-    #     layout = MapGenerator(self._game_map).generate()
-    #     self._create_hexes(layout)
-    
-    
     
     
     
