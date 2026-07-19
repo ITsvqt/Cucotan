@@ -9,10 +9,15 @@ from core.edge import Edge
 # 25 Development Cards: 14 Knights/Soldiers, 6 Progress Cards, and 5 Victory Point Cards.
 # Player Pieces (in 4 colors): 16 cities (churches), 20 settlements (houses), and 60 roads (bars).
 # Miscellaneous: 2 dice (1 red, 1 yellow), 1 robber, 2 Special Cards ("Longest Road" and "Largest Army"), and 4 "Building Costs" reference cards.
+
+
 class Board:
     
     """ Responsible for constructing and wiring game objects. """
     
+    
+    # BALANCED HEX NUMBER DISTRIBUTION
+    MAX_DOTS_PER_VERTEX = 13
     
     def __init__(self):
         
@@ -20,6 +25,10 @@ class Board:
         self._vertices: dict[int, Vertex] = {}
         self._edges:    dict[int, Edge] = {}
         self._hex_map:  dict[tuple[int, int], Hex] = {}  # (q, r) Hex for neigbor lookup
+
+
+        # Board generation
+        # self._hexes: list[Hex] = self._create_hexes(land_hexes_cordinates)
     
     # q   r   s( s == -(q+r) )
     DIRECTIONS = [

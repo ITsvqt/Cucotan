@@ -16,3 +16,11 @@ ________
 each edge has exactly 2 endpoint vertices
 vertex.neighbors = adjacent vertices (distance rule enforcement)
 """
+
+from maps.classic_catan_map import ClassicMap
+
+# for id,cord in enumerate(sorted(ClassicMap._SEA_HEXES_CORDINATES, key=lambda x: (x[0],x[1])), 1):
+#     print(f"{id} {cord}")
+m1 = ClassicMap()
+
+print(m1)

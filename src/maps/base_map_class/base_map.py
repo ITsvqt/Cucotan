@@ -1,8 +1,10 @@
 
+
+from core.hex import Hex
 from typing import TYPE_CHECKING
+from enums import Terrain
 
 if TYPE_CHECKING:
-    from enums import Terrain
     from enums import PortType
 
 class BaseMap:
@@ -17,8 +19,8 @@ class BaseMap:
     
     
     _INIT_ERROR_KEY = "[On map init]"
-    # BALANCED HEX NUMBER DISTRIBUTION
-    MAX_DOTS_PER_VERTEX = 13
+    
+
 
     def __init__(
         self,
@@ -49,6 +51,7 @@ class BaseMap:
             cnt_land_hex, land_hexes_cordinates, terrain_pool,
             cnt_resource_number, numbers_pool,
             cnt_sea_hex, sea_hexes_cordinates)
+        self._ensure_land_and_sea_hexes_do_not_overlap(land_hexes_cordinates, sea_hexes_cordinates)
         self._ensure_port_data_length_match(cnt_port, ports_pool)
         self._ensure_valid_dice_number_pool(numbers_pool)
         
@@ -70,16 +73,51 @@ class BaseMap:
         self._cnt_vertices = cnt_vertex
         self._cnt_edges = cnt_edge
         
-    
-    
+        
+    # DUNDER
+    def __str__(self):
+        result = []
+        result.append(f"Map: {type(self).__name__}")
+        result.append(f"Cnt_land: {self._cnt_land_hex}")
+        result.append(self.map_hexes_as_string(
+                        self._land_hexes_cordinates,
+                        self._sea_hexes_cordinates
+                    )
+                )
+        return '\n'.join(result)
+            
 
+    # PRIVATE STATIC METHODS
+    @ staticmethod
+    def map_hexes_as_string(land_hexes_cordinates, sea_hexes_cordinates) -> str:
+        result = []
+        
+        ALL = land_hexes_cordinates | sea_hexes_cordinates
+
+        min_r = min(r for _, r in ALL)
+        max_r = max(r for _, r in ALL)
+
+        for r in range(min_r, max_r + 1):
+            # All q values that exist in this row
+            qs = sorted(q for q, rr in ALL if rr == r)
+
+            # One symbol ("@ " or "~ ") occupies 2 characters.
+            line = " " * abs(r)
+
+            for q in qs:
+                if (q, r) in land_hexes_cordinates:
+                    line += "@ "
+                else:
+                    line += "~ "
+            result.append(line.rstrip())
+        return '\n'.join(result)
     
-    # INIT DATA VALIDATION METHODS
+      # INIT DATA VALIDATION METHODS
     @staticmethod
     def _ensure_hex_data_lengths_match(
         cnt_land_hex: int,
         land_hexes_cordinates: set[tuple[int, int]],
-        hex_terrail_pool: list[Terrain],
+        terrain_pool: list[Terrain],
         cnt_number_pool: int,
         number_pool: list[int],
         cnt_sea_hex: int,
@@ -96,11 +134,11 @@ class BaseMap:
                 f"Exp : [{cnt_land_hex}]\n"
                 f"Actl: [{len(land_hexes_cordinates)}]"
                 )
-        if cnt_land_hex != len(hex_terrail_pool):
+        if cnt_land_hex != len(terrain_pool):
             raise ValueError(
                 f"{localization_msg} Illegal terrain pool count on map init!\n"
                 f"Exp : [{cnt_land_hex}]\n"
-                f"Actl: [{len(hex_terrail_pool)}]"
+                f"Actl: [{len(terrain_pool)}]"
             )
         if cnt_number_pool != len(number_pool):
             raise ValueError(
@@ -111,7 +149,7 @@ class BaseMap:
         if cnt_sea_hex != len(sea_hexes_cordinates):
             raise ValueError(
                 f"{localization_msg} Illegal sea hexes coordinates count!\n"
-                f"Exp : [{cnt_land_hex}]\n"
+                f"Exp : [{cnt_sea_hex}]\n"
                 f"Actl: [{len(sea_hexes_cordinates)}]"
                 )
 
@@ -149,5 +187,6 @@ class BaseMap:
                 raise ValueError(f"{BaseMap._INIT_ERROR_KEY} Illegal number [{number}] in dice numbers pool!\n")
 
         
-        
+    
+     
         
