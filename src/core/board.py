@@ -5,7 +5,7 @@ from core.map_generator import MapGenerator
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from maps.base_map_class.base_map import BaseMap
+    from maps.base_map.base_map import BaseMap
 
 # commit msg after completoing board
 # Board model(orchestrator) completed
