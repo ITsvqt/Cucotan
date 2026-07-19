@@ -30,7 +30,7 @@ class BaseMap:
         land_hexes_cordinates: list[ tuple[int, int] ], # coordinates of each land tile
         terrain_pool  : list[ Terrain ],                # 1 desert, 3 mountains, 3 mines, 4 pastures ...
         cnt_resource_number    : int,                            # count of numbers for resource tiles
-        numbers_pool   : list[ int ],                    # 1x12, 2x8 ...
+        number_pool   : list[ int ],                    # 1x12, 2x8 ...
         
         # SEA HEXES DATA
         cnt_sea_hex   : int,                            # count of sea tiles
@@ -49,16 +49,18 @@ class BaseMap:
         
         self._ensure_hex_data_lengths_match(
             cnt_land_hex, land_hexes_cordinates, terrain_pool,
-            cnt_resource_number, numbers_pool,
-            cnt_sea_hex, sea_hexes_cordinates)
+            cnt_resource_number, number_pool,
+            cnt_sea_hex, sea_hexes_cordinates
+            )
         self._ensure_land_and_sea_hexes_do_not_overlap(land_hexes_cordinates, sea_hexes_cordinates)
         self._ensure_port_data_length_match(cnt_port, ports_pool)
-        self._ensure_valid_dice_number_pool(numbers_pool)
+        self._ensure_valid_dice_number_pool(number_pool)
         
         # Land
         self._cnt_land_hex = cnt_land_hex
         self._land_hexes_cordinates = land_hexes_cordinates
         self._terrain_pool = terrain_pool
+        self._number_pool = number_pool
         
         # Sea
         self._cnt_sea_hex = cnt_sea_hex
@@ -86,6 +88,24 @@ class BaseMap:
                 )
         return '\n'.join(result)
             
+            
+    # PROPERTIES
+    @property
+    def terrain_pool(self):
+        return self._terrain_pool
+    @property
+    def number_pool(self):
+        return self._number_pool
+    @property
+    def land_hexes_cordinates(self):
+        return self._land_hexes_cordinates
+    @property
+    def port_pool(self):
+        return self._port_pool
+    @property
+    def sea_hexes_cordinates(self):
+        return self._sea_hexes_cordinates
+    
 
     # PRIVATE STATIC METHODS
     @ staticmethod
