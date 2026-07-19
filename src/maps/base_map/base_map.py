@@ -92,14 +92,14 @@ class BaseMap:
     def map_hexes_as_string(land_hexes_cordinates, sea_hexes_cordinates) -> str:
         result = []
         
-        ALL = land_hexes_cordinates | sea_hexes_cordinates
+        all_hexes = land_hexes_cordinates | sea_hexes_cordinates
 
-        min_r = min(r for _, r in ALL)
-        max_r = max(r for _, r in ALL)
+        min_r = min(r for _, r in all_hexes)
+        max_r = max(r for _, r in all_hexes)
 
         for r in range(min_r, max_r + 1):
             # All q values that exist in this row
-            qs = sorted(q for q, rr in ALL if rr == r)
+            qs = sorted(q for q, rr in all_hexes if rr == r)
 
             # One symbol ("@ " or "~ ") occupies 2 characters.
             line = " " * abs(r)

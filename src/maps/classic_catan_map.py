@@ -1,5 +1,5 @@
 
-from maps.base_map_class.base_map import BaseMap
+from maps.base_map.base_map import BaseMap
 from enums import Terrain, PortType
 
 class ClassicMap(BaseMap):
@@ -65,8 +65,8 @@ class ClassicMap(BaseMap):
     
       # GENERATION VALIDATION
     _CNT_HEX = _CNT_LAND_HEX + _CNT_SEA_HEX # 37
-    _CNT_VERTEX = 0 # Todo: calculate
-    _CNT_EDGE = 0   # Todo: calculate
+    _CNT_VERTEX = 0 # TODO: 54
+    _CNT_EDGE = 0   # TODO: 72
     
     def __init__(self):
         super().__init__(

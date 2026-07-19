@@ -1,6 +1,11 @@
 from core.hex import Hex
 from core.vertex import Vertex
 from core.edge import Edge
+from core.map_generator import MapGenerator
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from maps.base_map_class.base_map import BaseMap
 
 # commit msg after completoing board
 # Board model(orchestrator) completed
@@ -19,7 +24,9 @@ class Board:
     # BALANCED HEX NUMBER DISTRIBUTION
     MAX_DOTS_PER_VERTEX = 13
     
-    def __init__(self):
+    def __init__(self, game_map: BaseMap):
+        
+        self._game_map = game_map
         
         self._hexes:    dict[int, Hex] = {}
         self._vertices: dict[int, Vertex] = {}
@@ -32,16 +39,18 @@ class Board:
     
     # q   r   s( s == -(q+r) )
     DIRECTIONS = [
-    (-1, -1,  2),  # top-left
-    ( 0, -1,  1),  # top-right
-    (-1,  0,  1),  # left
-    (+1,  0, -1),  # right
-    ( 0, +1, -1),  # bottom-left
-    (+1, +1, -2),  # bottom-right
+    (0, -1)  # top-left
+    (1, -1),  # top-right
+    (-1, 0),  # left
+    (1, 0),  # right
+    (-1, -1),  # bottom-left
+    (0, 1),  # bottom-right
+    ]
     
+    def _build(self):
+        layout = MapGenerator(self._game_map).generate()
+        self._create_hexes(layout)
     
-    
-]
     
     
     
