@@ -1,49 +1,65 @@
-# 🎲 Board Game Recreation
+<div align="center">
 
-*A recreation of a classic board game.*
+<img src="assets/banner.png" alt="Catan Recreation Banner" width="100%" />
 
-> 🚧 Currently under development
+# 🎲 Catan Recreation
+
+### A digital recreation of the classic board game built with Python.
+
+<br>
+
+> 🚧 **Currently under active development**
+
+</div>
 
 ---
 
-## About
+## 📖 About
 
-This project recreates a classic board game while staying faithful to its original mechanics.
+This project is a recreation of the classic board game **Catan**, developed in Python.
 
-More information and screenshots will be added as development progresses.
+The goal is to faithfully recreate the game's mechanics while creating a clean, interactive desktop experience.
 
-## 📸 Preview
+> **Status:** Early Development
+
+---
+
+## 🛠️ Tech Stack
 
 <p align="center">
-
-*Screenshots and gameplay GIFs will be added soon.*
-
+  <img src="https://skillicons.dev/icons?i=python,git,github,vscode" />
 </p>
 
 ---
 
-## 🛠️ Current Progress
+## ✨ Planned Features
 
-* ✅ Project setup
-* 🚧 Core gameplay
-* ⏳ User Interface
-* ⏳ AI / Multiplayer
-* ⏳ Polish
+* 🎲 Random board generation
+* 🌾 Resource production
+* 🛣️ Road & settlement placement
+* 🏙️ City upgrades
+* 🤝 Player trading
+* 🎴 Development cards
+* 🤖 AI opponents
+* 🌐 Multiplayer
 
 ---
 
+## 📸 Preview
+
+<p align="center">
+  <i>Screenshots and gameplay GIFs will be added as development progresses.</i>
+</p>
 
 
-⭐ **Star the repository to follow its progress!**
+<div align="center">
 
+### ⭐ If you like the project, consider starring the repository!
 
+</div>
 
+---
 
-[
-Commit messages legend:
-
-New: newly added
-Implemented: newly added and Implemented
-Add: addition to existing implementation
-Fix: refactoring
-]
+<sub>
+This is an unofficial, non-commercial fan project created for educational purposes.
+</sub>
