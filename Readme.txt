@@ -1,32 +1,16 @@
-<div align="center">
-
 # 🎲 Board Game Recreation
 
-### *A modern recreation of the classic Catan board game.*
+*A recreation of a classic board game.*
 
-<br>
-
-> 🚧 **Work in Progress** 🚧
-
-This project is currently under active development.
+> 🚧 Currently under development
 
 ---
 
-![Status](https://img.shields.io/badge/Status-In%20Development-orange?style=for-the-badge)
-![GitHub](https://img.shields.io/github/last-commit/USERNAME/REPOSITORY?style=for-the-badge)
-![License](https://img.shields.io/github/license/USERNAME/REPOSITORY?style=for-the-badge)
+## About
 
-</div>
+This project recreates a classic board game while staying faithful to its original mechanics.
 
----
-
-## 📌 About
-
-This repository contains a recreation of a classic board game built as a programming project.
-
-The focus is on creating a polished gameplay experience while staying faithful to the original mechanics.
-
----
+More information and screenshots will be added as development progresses.
 
 ## 📸 Preview
 
@@ -48,11 +32,10 @@ The focus is on creating a polished gameplay experience while staying faithful t
 
 ---
 
-<div align="center">
+
 
 ⭐ **Star the repository to follow its progress!**
 
-</div>
 
 
 
