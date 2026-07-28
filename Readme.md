@@ -18,7 +18,7 @@
 
 This project is a recreation of the classic board game **Catan**, developed in Python.
 
-The goal is to faithfully recreate the game's mechanics while creating a clean, interactive desktop experience.
+The goal is to faithfully recreate the game's mechanics while creating a clean, interactive web experience.
 
 > **Status:** Early Development
 
