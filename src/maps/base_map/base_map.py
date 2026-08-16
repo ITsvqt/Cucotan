@@ -11,7 +11,7 @@ class BaseMap:
     """
         Base class for all map layouts.
         Derrived classes store base class required attributes for concrete map
-        as precalculated constants. Parrent provides validation for the length of the lists.
+        as precalculated by human constants. Parrent provides validation for the length of the lists.
         
         Map generation relies on randomly consuming entries from predefined data lists without repetition.
     """
@@ -80,7 +80,7 @@ class BaseMap:
         result = []
         result.append(f"Map: {type(self).__name__}")
         result.append(f"Cnt_land: {self._cnt_land_hex}")
-        result.append(self.map_hexes_as_string(
+        result.append(self._map_hexes_as_string(
                         self._land_hexes_cordinates,
                         self._sea_hexes_cordinates
                     )
@@ -120,7 +120,7 @@ class BaseMap:
 
     # PRIVATE STATIC METHODS
     @ staticmethod
-    def map_hexes_as_string(land_hexes_cordinates, sea_hexes_cordinates) -> str:
+    def _map_hexes_as_string(land_hexes_cordinates, sea_hexes_cordinates) -> str:
         result = []
         
         all_hexes = land_hexes_cordinates | sea_hexes_cordinates

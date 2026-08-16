@@ -31,3 +31,11 @@ print(f"edges      :{len(board._edges)}")
 
 
 print(m1)
+
+for id,v in board._vertices.items():
+    print(f"{id}[{v.vertex_id} {len(v.adjacent_vertices)}]")
+    print(f"{id}[{v.vertex_id} {len(v.adjacent_edges)}]")
+    print()
+        
+        
+

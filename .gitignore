@@ -1,9 +1,10 @@
+classic_catan_map.png
 notes.txt
 key_knowledge_points.txt
 developernotes.md
 project_structure.md
 additional_code_variants.py
-*.png
+*q.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

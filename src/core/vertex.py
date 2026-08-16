@@ -24,7 +24,16 @@ class Vertex:
         # path to neighbors (same count as vertices )
         self._adjacent_edges: tuple[Edge, ...]  = ()
         
-        
+    def wire_hexes(self, adjacent_hexes: tuple[Hex]):
+        self._adjacent_hexes = adjacent_hexes
+    
+    def wire_vertices(self, adjacent_vertices: tuple[Vertex]):
+        self._adjacent_vertices = adjacent_vertices
+            
+    def wire_edges(self, adjacent_edges: tuple[Edge]):
+        self._adjacent_edges = adjacent_edges
+    
+    
     def wire(self,
         adjacent_hexes:    tuple[Hex, ...],
         adjacent_vertices: tuple[Vertex, ...],

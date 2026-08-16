@@ -23,6 +23,7 @@ class Board:
     _INIT_ERROR_KEY = "[On board init]"
     
     DIRECTIONS = [
+        # 2D directions for the hex grid
         (0, -1),  # top-left
         (1, -1),  # top-right
         (-1, 0),  # left
@@ -51,9 +52,9 @@ class Board:
         self._hexes:    dict[int, Hex] = {}
         self._vertices: dict[int, Vertex] = {}
         self._edges:    dict[int, Edge] = {}
-        self._hex_map:  dict[tuple[int, int], Hex] = {}  # (cords of the hex)
-        self._corner_map: dict[frozenset, Vertex] = {}   # (cords of 3 hexes the vertex is on)
-        self._edge_map:   dict[frozenset, Edge]   = {}   # (ids of 2 vertices the edge connects)
+        self._hex_map:  dict[tuple[int, int], Hex] = {}  # key: cords of the hex
+        self._corner_map: dict[frozenset, Vertex] = {}   # key: cords of 3 hexes the vertex is on
+        self._edge_map:   dict[frozenset, Edge]   = {}   # key: ids of 2 vertices the edge connects
         
         self._build()
         self._ensure_valid_build()
@@ -61,7 +62,7 @@ class Board:
     def _build(self):
         self._create_hexes()
         self._create_vertices_and_edges()
-        self._wire_vertices_and_edges()
+        self._wire_edges()
     
     def _create_hexes(self):
   
@@ -85,12 +86,21 @@ class Board:
             self._hex_map[(q, r)] = new_hex
             
     def _create_vertices_and_edges(self):
+        
+        """ Both in the same function, because they rely on the same hex logic.
+            This method also wires the created vertices and edges to their belonging hex.
+            Wires hexes,edge, and adjacent vertices to their vertices.
+            Wires vertices the edge connects."""
         vertex_id = 0
         edge_id = 0
         
-        # deduplication
+        # data to check for deduplication
         corner_map: dict[frozenset, Vertex] = {}
         edge_map  : dict[frozenset, Edge  ] = {}
+        
+        # save adjacent on creation to wire at the end
+        vertex_adj_vertices: dict[int, list[Vertex]] = {}
+        vertex_adj_edges   : dict[int, list[Edge]]   = {}
 
         land_hexes = [self._hex_map[coords] for coords in self._game_map.land_hexes_cordinates]
         for hex in land_hexes:
@@ -111,6 +121,9 @@ class Board:
                     v = Vertex(vertex_id)
                     corner_map[key] = v
                     self._vertices[vertex_id] = v
+                    vertex_adj_vertices[vertex_id] = []
+                    vertex_adj_edges[vertex_id] = []
+                    v.wire_hexes(tuple(self._hex_map[coords] for coords in key))
                     vertex_id += 1
 
                 # unique key for each vertex (the cordinates of 3 hexes it is on)
@@ -130,30 +143,46 @@ class Board:
                     e = Edge(edge_id)
                     edge_map[key] = e
                     self._edges[edge_id] = e
+                    vertex_adj_vertices[v1.vertex_id].append(v2)
+                    vertex_adj_vertices[v2.vertex_id].append(v1)
+                    vertex_adj_edges[v1.vertex_id].append(e)
+                    vertex_adj_edges[v2.vertex_id].append(e)
+                    e.wire_vertices(tuple((v1,v2)))
                     edge_id += 1
                 hex_edges.append(edge_map[key])
             
             # wire the hex on the spot
             # since it doesn't require future iterations like vertices and edges
-            hex.wire(tuple(hex_corners, tuple(hex_edges)))
+            hex.wire(tuple(hex_corners), tuple(hex_edges))
+            
+        for vertex in self._vertices.values():
+            vertex.wire_vertices(tuple(vertex_adj_vertices[vertex.vertex_id]))
+            vertex.wire_edges(tuple(vertex_adj_edges[vertex.vertex_id]))
                     
         self._corner_map = corner_map
         self._edge_map = edge_map
                     
-    def _wire_vertices_and_edges(self):
-        # WIRING VERTICES
+    def _wire_edges(self):
+        """ Wire hexes and edges last, because they depend on creating and wiring hexes and vertices. """
         
-        for vertex in self._vertices:
+        for edge in self._edges.values():
+            v1, v2 = edge.adjacent_vertices
             
-        # WIRING EDGES
-        
-        
+            adj_hexes = tuple(h for h in v1.adjacent_hexes if h in v2.adjacent_hexes)
+            edge.wire_hexes(adj_hexes)
             
-        
-            
+            adj_edges = tuple(
+                e for e in (set(v1.adjacent_edges) | set(v2.adjacent_edges))
+                if e is not edge
+            )
+            edge.wire_edges(adj_edges)
             
     # VALIDATION METHODS       
     def _ensure_valid_build(self):
+        
+        """ Compares count of generated hex,vertex, and edge against the human calculated expected amount. """
+        
+        
         loctn_msg = self._INIT_ERROR_KEY
         if len(self._hexes) != self._game_map.cnt_hex:
             raise ValueError(
