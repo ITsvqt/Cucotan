@@ -54,9 +54,8 @@ class Board:
         self._hexes:    dict[int, Hex] = {}
         self._vertices: dict[int, Vertex] = {}
         self._edges:    dict[int, Edge] = {}
+        
         self._hex_map:  dict[tuple[int, int], Hex] = {}  # key: cords of the hex
-        self._corner_map: dict[frozenset, Vertex] = {}   # key: cords of 3 hexes the vertex is on
-        self._edge_map:   dict[frozenset, Edge]   = {}   # key: ids of 2 vertices the edge connects
         
         self._build()
         self._ensure_valid_build()
@@ -97,8 +96,8 @@ class Board:
         edge_id = 0
         
         # data to check for deduplication
-        corner_map: dict[frozenset, Vertex] = {}
-        edge_map  : dict[frozenset, Edge  ] = {}
+        corner_map: dict[frozenset, Vertex] = {}  # key: cords of 3 hexes the vertex is on
+        edge_map  : dict[frozenset, Edge  ] = {}  # key: ids of 2 vertices the edge connects
         
         # save adjacent on creation to wire at the end
         vertex_adj_vertices: dict[int, list[Vertex]] = {}
@@ -160,9 +159,7 @@ class Board:
         for vertex in self._vertices.values():
             vertex.wire_vertices(tuple(vertex_adj_vertices[vertex.vertex_id]))
             vertex.wire_edges(tuple(vertex_adj_edges[vertex.vertex_id]))
-                    
-        self._corner_map = corner_map
-        self._edge_map = edge_map
+                
                     
     def _wire_edges(self):
         """ Wire hexes and edges last, because they depend on creating and wiring hexes and vertices. """

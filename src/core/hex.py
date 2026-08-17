@@ -52,17 +52,17 @@ class Hex:
          
     #* CLASS METHODS
     # factory methods
-    @classmethod
-    def land(cls, hex_id:int, terrain: Terrain, number: int):
-        return cls(hex_id, terrain, number, port = None)
+    # @classmethod
+    # def land(cls, hex_id:int, terrain: Terrain, number: int):
+    #     return cls(hex_id, terrain, number, port = None)
 
-    @classmethod
-    def desert(cls, hex_id:int):
-        return cls(hex_id, Terrain.DESERT, number = None, port = None)
+    # @classmethod
+    # def desert(cls, hex_id:int):
+    #     return cls(hex_id, Terrain.DESERT, number = None, port = None)
 
-    @classmethod
-    def sea(cls, hex_id:int, port: PortType | None):
-        return cls(hex_id, Terrain.SEA, number = None, port = port)
+    # @classmethod
+    # def sea(cls, hex_id:int, port: PortType | None):
+    #     return cls(hex_id, Terrain.SEA, number = None, port = port)
 
     #* PROPERTIES
     @property
