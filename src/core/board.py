@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from core.hex import Hex
 from core.vertex import Vertex
 from core.edge import Edge

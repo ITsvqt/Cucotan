@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import TYPE_CHECKING
 import random
 from maps.generation.map_layout import MapLayout
