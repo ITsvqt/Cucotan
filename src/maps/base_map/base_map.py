@@ -100,6 +100,9 @@ class BaseMap:
     def land_hexes_cordinates(self):
         return self._land_hexes_cordinates
     @property
+    def ports_cords_and_direction(self):
+        return self._ports_cords_and_direction
+    @property
     def port_pool(self):
         return self._port_pool
     @property
