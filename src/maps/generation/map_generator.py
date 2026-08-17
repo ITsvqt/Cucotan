@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 import random
 from maps.generation.map_layout import MapLayout
+
 if TYPE_CHECKING:
     from maps.base_map.base_map import BaseMap
     from shared.enums import Terrain, PortType
@@ -10,7 +11,11 @@ if TYPE_CHECKING:
 
 class MapGenerator:
     
-    """ Generates random map layout from predefined map data. """
+    """ Generates a valid random distribution of game resources, based on the original game rules.
+    
+        
+    
+    """
     
     # BALANCED HEX NUMBER DISTRIBUTION
     MAX_DOTS_PER_VERTEX = 13
@@ -32,6 +37,7 @@ class MapGenerator:
 
         land_hexes_cordinates = self._game_map.land_hexes_cordinates
         terrain_pool = self._game_map.terrain_pool.copy()
+        random.shuffle(terrain_pool)
         random.shuffle(terrain_pool)
         
         #? zipping a set(land_hexes_cordinates)
