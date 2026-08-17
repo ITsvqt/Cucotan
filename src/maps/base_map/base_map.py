@@ -37,10 +37,10 @@ class BaseMap:
         
         # ADDITIONAL GAME DATA
         cnt_port      : int,                            # count of ports
-        ports_pool     : list[ PortType ],               # 3x3:1, 1xwheat(2:1)
+        ports_cords_and_direction: tuple[tuple, tuple], # t1: hex_cord, t2: facing direction 
+        ports_pool     : list[ PortType ],              # 3x3:1, 1xwheat(2:1)
         
         # VALUES FOR VALIDATING DATA VOLUME
-        # TODO: not important right now
         cnt_hex       : int,                            # for validation of generated data
         cnt_vertex    : int,                            # for validation of generated data
         cnt_edge      : int                             # for validation of generated data
@@ -67,6 +67,7 @@ class BaseMap:
         
         # Port
         self._cnt_port = cnt_port
+        self._ports_cords_and_direction = ports_cords_and_direction
         self._port_pool = ports_pool
         
         # Expected values for generation
