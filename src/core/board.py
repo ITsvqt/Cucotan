@@ -59,7 +59,7 @@ class Board:
         
         # this is used only by map generator to apply game's Port logic
         # (after randomization) to  Hex and Vertex
-        self._port_vertex_pairs: list[tuple[Hex, Vertex, Vertex]] = [] 
+        self._ports_hex_and_vertices_effect: list[tuple[Hex, Vertex, Vertex]] = [] 
         
         
         self._build()
@@ -165,6 +165,8 @@ class Board:
         for vertex in self._vertices.values():
             vertex.wire_vertices(tuple(vertex_adj_vertices[vertex.vertex_id]))
             vertex.wire_edges(tuple(vertex_adj_edges[vertex.vertex_id]))
+            
+        return corner_map
                 
                     
     def _wire_edges(self):
@@ -197,7 +199,7 @@ class Board:
                 if coords in key and land_coords in key
                 ]
             
-            self._port_vertex_pairs.append((sea_hex, *docking_vertices))
+            self._ports_hex_and_vertices_effect.append((sea_hex, *docking_vertices))
             
             
         
@@ -227,6 +229,12 @@ class Board:
                 f"{loctn_msg} Edge count generation missmatch!\n"
                 f"Exp : [{self._game_map.cnt_edge}]\n"
                 f"Actl: [{len(self._edges)}]"
+            )
+        if len(self._ports_hex_and_vertices_effect) != self._game_map.cnt_port:
+            raise ValueError(
+                f"{loctn_msg} Port Type generation data missmatch!\n"
+                f"Exp : [{self._game_map.cnt_port}]\n"
+                f"Actl: [{len(self._ports_hex_and_vertices_effect)}]"
             )
     
     

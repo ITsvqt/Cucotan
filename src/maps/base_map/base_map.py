@@ -26,18 +26,18 @@ class BaseMap:
         
         # RESOURCE HEXES DATA
         cnt_land_hex  : int,                            # count of land tiles
-        land_hexes_cordinates: list[ tuple[int, int] ], # coordinates of each land tile
+        land_hexes_cordinates: set[ tuple[int, int] ], # coordinates of each land tile
         terrain_pool  : list[ Terrain ],                # 1 desert, 3 mountains, 3 mines, 4 pastures ...
         cnt_resource_number    : int,                            # count of numbers for resource tiles
         number_pool   : list[ int ],                    # 1x12, 2x8 ...
         
         # SEA HEXES DATA
         cnt_sea_hex   : int,                            # count of sea tiles
-        sea_hexes_cordinates : list[ tuple[int, int] ], # coordinates of each sea_hex
+        sea_hexes_cordinates : set[ tuple[int, int] ], # coordinates of each sea_hex
         
         # ADDITIONAL GAME DATA
         cnt_port      : int,                            # count of ports
-        ports_cords_and_direction: tuple[tuple, tuple], # t1: hex_cord, t2: facing direction 
+        ports_cords_and_direction: set[tuple, tuple],   # t1: hex_cord, t2: facing direction 
         ports_pool     : list[ PortType ],              # 3x3:1, 1xwheat(2:1)
         
         # VALUES FOR VALIDATING DATA VOLUME
@@ -51,8 +51,9 @@ class BaseMap:
             cnt_resource_number, number_pool,
             cnt_sea_hex, sea_hexes_cordinates
             )
+        self._ensure_port_data_length_match(cnt_port, ports_cords_and_direction, ports_pool)
         self._ensure_land_and_sea_hexes_do_not_overlap(land_hexes_cordinates, sea_hexes_cordinates)
-        self._ensure_port_data_length_match(cnt_port, ports_pool)
+        self._ensure_valid_port_data(land_hexes_cordinates, sea_hexes_cordinates, ports_cords_and_direction)
         self._ensure_valid_dice_number_pool(number_pool)
         
         # Land
@@ -120,6 +121,9 @@ class BaseMap:
     @property
     def cnt_edge(self):
         return self._cnt_edge
+    @property
+    def cnt_port(self):
+        return self._cnt_port
     
 
     # PRIVATE STATIC METHODS
@@ -159,7 +163,7 @@ class BaseMap:
         sea_hexes_cordinates: set[tuple[int, int]]
         ):
         
-        """ Checks lists of land hexes data for mismatching length. """
+        """ Checks collections of hexes data for mismatching length. """
         
         
         localization_msg = BaseMap._INIT_ERROR_KEY
@@ -187,22 +191,17 @@ class BaseMap:
                 f"Exp : [{cnt_sea_hex}]\n"
                 f"Actl: [{len(sea_hexes_cordinates)}]"
                 )
-
-    @staticmethod
-    def _ensure_land_and_sea_hexes_do_not_overlap(land_hexes_cordinate:set, sea_hexes_cordinate:set):
-        """ Checks if land and sea overlap. """
-
-        overlap = land_hexes_cordinate.intersection(sea_hexes_cordinate) 
-        if len(overlap) != 0:
-            overlap_lines = [f"{cordinates}" for cordinates in overlap]
-            raise ValueError(
-                f"{BaseMap._INIT_ERROR_KEY} Land and sea hexes overlap at:\n"
-                f"{'\n'.join(overlap_lines)}"
-                )
             
     @staticmethod    
-    def _ensure_port_data_length_match(cnt_port: int, ports_pool: list[PortType]): 
-        """ Checks port_pool for mismatching length. """
+    def _ensure_port_data_length_match(cnt_port: int, ports_cords_and_dir: set, ports_pool: list[PortType]): 
+        """ Checks collections of ports data for mismatching length. """
+        
+        if cnt_port != len(ports_cords_and_dir):
+            raise ValueError(
+                f"{BaseMap._INIT_ERROR_KEY} Illegal ports cordinates count\n"
+                f"Exp: {cnt_port}\n"
+                f"Actl: [{len(ports_cords_and_dir)}]"
+            )
         
         if cnt_port != len(ports_pool):
             raise ValueError(
@@ -210,6 +209,45 @@ class BaseMap:
                 f"Exp: {cnt_port}\n"
                 f"Actl: [{len(ports_pool)}]"
                 )
+            
+            
+    @staticmethod
+    def _ensure_land_and_sea_hexes_do_not_overlap(land_hexes_cordinates:set, sea_hexes_cordinate:set):
+        """ Checks if land and sea overlap. """
+
+        overlap = land_hexes_cordinates.intersection(sea_hexes_cordinate) 
+        if len(overlap) != 0:
+            overlap_lines = [f"{cordinates}" for cordinates in overlap]
+            raise ValueError(
+                f"{BaseMap._INIT_ERROR_KEY} Land and sea hexes overlap at:\n"
+                f"{'\n'.join(overlap_lines)}"
+                )
+    
+    @staticmethod
+    def _ensure_valid_port_data(land_hexes_cordinates: set, sea_hexes_cordinates: set, ports_cords_and_direction: set):
+        """ Checks if ports cordinates are sea_hexes cordinates
+        Checks if port cords + direction are valid land_hexes """
+        
+        ports_cords = set([x[0] for x in ports_cords_and_direction])
+        
+        difference = ports_cords.difference(sea_hexes_cordinates)
+        if len(difference) != 0:
+            difference_lines = [f"{cordinates}" for cordinates in difference]
+            raise ValueError(
+                f"{BaseMap._INIT_ERROR_KEY} Port cordinates that are not on sea:\n"
+                f"{'\n'.join(difference_lines)}"
+            )
+        
+        ports_facing_land_cords = set([(x[0] + y[0], x[1] + y[1]) for x,y in [t for t in ports_cords_and_direction]])
+        
+        difference = ports_facing_land_cords.difference(land_hexes_cordinates)
+        if len(difference) != 0:
+            difference_lines = [f"{cordinates}" for cordinates in difference]
+            raise ValueError(
+                f"{BaseMap._INIT_ERROR_KEY} Port facing land is not in the map:\n"
+                f"{'\n'.join(difference_lines)}"
+            )
+    
     
     @staticmethod
     def _ensure_valid_dice_number_pool(numbers_pool: list[int]):

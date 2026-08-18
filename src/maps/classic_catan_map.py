@@ -54,7 +54,7 @@ class ClassicMap(BaseMap):
     CNT_GENERIC_PORT = 4
     CNT_PORT_PER_RESOUCE = 1
     _CNT_PORT     = 9  # 4 generic + 1 for each resource
-    _PORTS_CORDINATES_AND_DIRECTION = ( # t1: hex cord, t2: facing dir
+    _PORTS_CORDINATES_AND_DIRECTION = { # t1: hex cord, t2: facing dir
            ((0, -3), (0, 1)), ((2, -3), (-1, 1)),
                                  ((3, -2), (-1, 1)),
         ((-2, -1), (1, 0)),
@@ -62,7 +62,7 @@ class ClassicMap(BaseMap):
         ((-3, 1), (1, 0)),
                                  ((1, 2), (0, -1)),
            ((-3, 3), (1, -1)), ((-1, 3), (0, -1))
-    )
+    }
     
     _PORTS_POOL = (
         [PortType.GENERIC] * CNT_GENERIC_PORT
