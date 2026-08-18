@@ -1,6 +1,11 @@
 from typing import NamedTuple
 from shared.enums import Terrain, PortType
 
+#TODO : DELETE THIS BITCH
+#TODO : DELETE THIS BITCH
+#TODO : DELETE THIS BITCH
+#TODO : DELETE THIS BITCH
+
 
 class MapLayout(NamedTuple):
     

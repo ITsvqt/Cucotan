@@ -63,7 +63,7 @@ class Board:
         
         
         self._build()
-        self._ensure_valid_build() # small validation #todo: add ports check
+        self._ensure_valid_build() # small validation
     
     def _build(self):
         self._create_hexes()
@@ -236,6 +236,17 @@ class Board:
                 f"Exp : [{self._game_map.cnt_port}]\n"
                 f"Actl: [{len(self._ports_hex_and_vertices_effect)}]"
             )
+        
+        for i in range(len(self._ports_hex_and_vertices_effect)):
+            port_data = self._ports_hex_and_vertices_effect[i]
+            if len(port_data) != 3:
+                raise ValueError(
+                    f"{loctn_msg} Port data at index [{i}] malformed!\n"
+                    f"Exp : [3] Hex Vertex Vertex\n"
+                    f"Actl: {len(port_data)}"
+                )    
+            
+        
     
     
     
