@@ -22,6 +22,48 @@ class Board:
     
     """ Responsible for constructing and wiring game objects. """
     
+    def __init__(self, game_map: BaseMap):
+        
+        self._game_map = game_map
+        
+        self._hexes:    dict[int, Hex] = {}     # fast lookup for the state layer
+        self._vertices: dict[int, Vertex] = {}
+        self._edges:    dict[int, Edge] = {}
+        
+        self._hex_map:  dict[tuple[int, int], Hex] = {}  # key: cords of the hex
+        
+        # this is used only by map generator to apply game's Port logic
+        # (after randomization) to  Hex and Vertex
+        self._ports_hex_and_vertices_effect: list[tuple[Hex, Vertex, Vertex]] = [] 
+        
+        
+        self._build()
+        self._ensure_valid_build() # small validation
+        
+    def get_hex_neighoburs(self, hex_cords: tuple[int, int]) -> tuple[tuple[Hex], tuple[Hex]]:
+        """ Should be called for a land hex\n
+            param[0]: Target hex cordinates\n
+            Returns: neighour land and sea neigbour hexes separated in 2 tuples"""
+            
+        land_hexes = []
+        sea_hexes = []
+        
+        for dir in self.DIRECTIONS:
+            neighobur_cords = (hex_cords[0] + dir[0], hex_cords[1] + dir[1])
+            
+            try:
+                curr = self._hex_map[neighobur_cords]
+            except:
+                raise ValueError(f"Invalid land hex cords param: {hex_cords} ")
+            
+            if neighobur_cords in self._game_map.land_hexes_cordinates:
+                land_hexes.append(curr)
+            else:
+                sea_hexes.append(curr)
+            
+        return (tuple(land_hexes), tuple(sea_hexes))
+    
+    
     _INIT_ERROR_KEY = "[On board init]"
     
     DIRECTIONS = [
@@ -46,24 +88,6 @@ class Board:
                 # corner indecies
     EDGE_PAIRS = [(0,1),(1,2),(2,3),(3,4),(4,5),(5,0)]
 
-    
-    def __init__(self, game_map: BaseMap):
-        
-        self._game_map = game_map
-        
-        self._hexes:    dict[int, Hex] = {}     # fast lookup for the state layer
-        self._vertices: dict[int, Vertex] = {}
-        self._edges:    dict[int, Edge] = {}
-        
-        self._hex_map:  dict[tuple[int, int], Hex] = {}  # key: cords of the hex
-        
-        # this is used only by map generator to apply game's Port logic
-        # (after randomization) to  Hex and Vertex
-        self._ports_hex_and_vertices_effect: list[tuple[Hex, Vertex, Vertex]] = [] 
-        
-        
-        self._build()
-        self._ensure_valid_build() # small validation
     
     def _build(self):
         self._create_hexes()
@@ -98,6 +122,7 @@ class Board:
             This method also wires the created vertices and edges to their belonging hex.
             Wires hexes,edge, and adjacent vertices to their vertices.
             Wires vertices the edge connects."""
+            
         vertex_id = 0
         edge_id = 0
         
@@ -184,6 +209,7 @@ class Board:
             )
             edge.wire_edges(adj_edges)
             
+            
     def _create_ports(self, corner_map: dict[frozenset, Vertex]):
         """ Prepare collection of hex and vertices for each port,
         to be set by map generator after randomization. """
@@ -203,11 +229,9 @@ class Board:
             
             
         
-        
-            
+   
     # VALIDATION METHODS       
     def _ensure_valid_build(self):
-        
         """ Compares count of generated hex,vertex, and edge against the human calculated expected amount. """
         
         

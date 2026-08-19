@@ -20,22 +20,8 @@ vertex.neighbors = adjacent vertices (distance rule enforcement)
 from maps.classic_catan_map import ClassicMap
 from core.board import Board
 
-# for id,cord in enumerate(sorted(ClassicMap._SEA_HEXES_CORDINATES, key=lambda x: (x[0],x[1])), 1):
-#     print(f"{id} {cord}")
+
 m1 = ClassicMap()
 board = Board(m1)
 
-print(f"hexes      :{len(board._hexes)}")
-print(f"vertices   :{len(board._vertices)}")
-print(f"edges      :{len(board._edges)}")
-
-
-print(m1)
-
-for id,v in board._vertices.items():
-    print(f"[{v.vertex_id}] {len(v.adjacent_vertices)} vertices")
-    print(f"[{v.vertex_id}] {len(v.adjacent_edges)} edges")
-    print()
-        
-        
 
