@@ -19,8 +19,7 @@ class BaseMap:
     
     _INIT_ERROR_KEY = "[On map init]"
     
-
-
+    
     def __init__(
         self,
         
@@ -43,7 +42,10 @@ class BaseMap:
         # VALUES FOR VALIDATING DATA VOLUME
         cnt_hex       : int,                            # for validation of generated data
         cnt_vertex    : int,                            # for validation of generated data
-        cnt_edge      : int                             # for validation of generated data
+        cnt_edge      : int,                            # for validation of generated data
+        
+        # SYMETRIC CORNERS HEXES FOR LOWEST PIP DISTRIBUTION
+        symetric_pip1_combinations: tuple[tuple[tuple, tuple], ...] = None
         ):
         
         self._ensure_hex_data_lengths_match(
@@ -76,6 +78,10 @@ class BaseMap:
         self._cnt_vertex = cnt_vertex
         self._cnt_edge = cnt_edge
         
+        # Symetric corner hexes
+        self._symetric_corner_hexes = symetric_pip1_combinations
+        
+        
         
     # DUNDER
     def __str__(self):
@@ -94,36 +100,50 @@ class BaseMap:
     @property
     def terrain_pool(self):
         return self._terrain_pool
+    
     @property
     def number_pool(self):
         return self._number_pool
+    
     @property
     def land_hexes_cordinates(self):
         return self._land_hexes_cordinates
+    
     @property
     def ports_cords_and_direction(self):
         return self._ports_cords_and_direction
+    
     @property
     def port_pool(self):
         return self._port_pool
+    
     @property
     def sea_hexes_cordinates(self):
         return self._sea_hexes_cordinates
+    
     @property
     def hexes_cordinates(self):
         return self._land_hexes_cordinates | self._sea_hexes_cordinates
+    
     @property
     def cnt_hex(self):
         return self._cnt_hexes
+    
     @property
     def cnt_vertex(self):
         return self._cnt_vertex
+    
     @property
     def cnt_edge(self):
         return self._cnt_edge
+    
     @property
     def cnt_port(self):
         return self._cnt_port
+    
+    @property
+    def symetric_corner_hexes(self):
+        return self._symetric_corner_hexes
     
 
     # PRIVATE STATIC METHODS

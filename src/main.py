@@ -20,6 +20,7 @@ vertex.neighbors = adjacent vertices (distance rule enforcement)
 from maps.classic_catan_map import ClassicMap
 from core.board import Board
 from maps.spread_generation.map_spread_generator import MapSpreadGenerator
+from shared.enums import Terrain
 
 
 def setup_game() -> Board:
@@ -34,6 +35,8 @@ def setup_game() -> Board:
 
 
 b = setup_game()
+
+
 
 
 

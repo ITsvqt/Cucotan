@@ -19,7 +19,9 @@ Your game initialization code just picks whichever generator the player chose in
 class MapSpreadGenerator:
     
     """ 
-    This implementation is the most competitive for game runs.
+    This implementation is the most competitive for game runs and is designed for the classic map. 
+    (because of symetric corners definition in map AND actual dependency on [2,12] being present once in the numbers list)
+    
     Generates a valid random distribution of game resources, based on the original game rules.
     MapGenerator accepts board obj.
     Call generate() method to run everything.
@@ -34,10 +36,10 @@ class MapSpreadGenerator:
         self._rng = random.Random(seed)
     
     
-    PIP_VALUES = {2:1, 3:2, 4:3, 5:4, 6:5, 8:5, 9:4, 10:3, 11:2, 12:1}
-    PIP_GROUPS = [[6,8], [5,9], [4,10], [3,11], [2,12]]
-    MAX_RETRIES = 100
-    MAX_PIP_PER_VERTEX = 13
+    _PIP_VALUES = {2:1, 3:2, 4:3, 5:4, 6:5, 8:5, 9:4, 10:3, 11:2, 12:1}
+    _PIP_GROUPS = [[6,8], [5,9], [4,10], [3,11]]
+    _MAX_RETRIES = 100
+    _MAX_PIP_PER_VERTEX = 13
     
     
     def generate(self):
@@ -57,6 +59,7 @@ class MapSpreadGenerator:
         for i in range(len(terrain_pool)):
             self._board.land_hexes[i].terrain = terrain_pool[i]
             
+            
     def _generate_ports(self):
         """ Randomize port type spread across the map's ports. """
 
@@ -67,6 +70,52 @@ class MapSpreadGenerator:
         for i in range(len(port_pool)):
             for el in self._board.ports_effect[i]:
                 el.port = port_pool[i]
+                
+                
+    def _generate_numbers(self):
+        """ Randomize numbers spread across the map's hexes.
+        place_pip1_numbers"""
+        
+        numbers = self._board.game_map.number_pool
+        resource_hexes = [h for h in self._board.hexes if h.terrain not in [Terrain.SEA, Terrain.DESERT]]
+        
+        self._ensure_numbers_and_resource_hexes_cnt_match(numbers, resource_hexes)
+        
+        num_count = {}
+        for num in numbers:
+            if num in num_count:
+                num_count[num] += 1
+            else:
+                num_count[num] = 1
+                
+        assigned = self._place_pip1_numbers(num_count)
+        
+    
+    def _place_pip1_numbers(self, num_count) -> dict:
+        """ Stongly depends on 2 and 12 numbers being present only once on the map."""
+        
+        assigned = {}
+        combos = self._board.game_map.symetric_corner_hexes
+        
+        if combos:
+            pair = random.choice(combos)
+                            
+        
+        return assigned
+        
+    
+    def _ensure_numbers_and_resource_hexes_cnt_match(self, numbers, resource_hexes):
+        
+        if len(numbers) != len(resource_hexes):
+            raise ValueError(
+                f"[numbers generation] Unsimetric data.\n"
+                f"cnt_numbers: {len(numbers)}\n"
+                f"cnt_hex    : {len(resource_hexes)}"
+                )
+        
+                
+        
+        
         
         
 

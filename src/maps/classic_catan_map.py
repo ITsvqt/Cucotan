@@ -38,6 +38,16 @@ class ClassicMap(BaseMap):
         + [2, 12] * 1
     )
     
+    _SYMETRIC_CORNERS = (
+        # To balance 2, 12 dice numbers
+        ((0, -2), (0, 2)),
+        ((1, -2), (-1, 2)),
+        ((2, -2), (-2, 2)),
+        ((2, -1), (-2, 1)),
+        ((2, 0), (-2, 0)),
+        ((1, 1), (-1, -1))
+    )
+    
       # SEA
     _CNT_SEA_HEX = 18
     _SEA_HEXES_CORDINATES = {

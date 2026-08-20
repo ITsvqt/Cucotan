@@ -22,6 +22,31 @@ class Board:
     
     """ Responsible for constructing and wiring game objects. """
     
+    _INIT_ERROR_KEY = "[On board init]"
+    
+    DIRECTIONS = [
+        # 2D directions for the hex grid
+        (0, -1),  # top-left
+        (1, -1),  # top-right
+        (-1, 0),  # left
+        (1, 0),  # right
+        (-1, 1),  # bottom-left
+        (0, 1)  # bottom-right
+        ]
+    
+    CORNER_NEIGHBORS = [
+        # directions indecies
+        (0, 1),  # corner 0: top
+        (1, 3),  # corner 1: top-right
+        (3, 5),  # corner 2: bottom-right
+        (5, 4),  # corner 3: bottom
+        (4, 2),  # corner 4: bottom-left
+        (2, 0)   # corner 5: top-left
+        ]
+                # corner indecies
+    EDGE_PAIRS = [(0,1),(1,2),(2,3),(3,4),(4,5),(5,0)]
+    
+    
     def __init__(self, game_map: BaseMap):
         
         self._game_map = game_map
@@ -56,6 +81,15 @@ class Board:
     @property
     def ports_effect(self):
         return self._ports_hex_and_vertices_effect
+    
+
+    def get_hex_by_cordinates(self, q: int, r: int):
+        if (q,r) not in self._hex_map:
+            raise ValueError(f"[get hex with cordinates] Hex cordinates({q}, {r}) can't be found in the board!")
+        
+        return self._hex_map[(q,r)]
+        
+        
         
     def get_hex_neighoburs(self, hex_cords: tuple[int, int]) -> tuple[tuple[Hex], tuple[Hex]]:
         """ Should be called for a land hex\n
@@ -81,29 +115,7 @@ class Board:
         return (tuple(land_hexes), tuple(sea_hexes))
     
     
-    _INIT_ERROR_KEY = "[On board init]"
-    
-    DIRECTIONS = [
-        # 2D directions for the hex grid
-        (0, -1),  # top-left
-        (1, -1),  # top-right
-        (-1, 0),  # left
-        (1, 0),  # right
-        (-1, 1),  # bottom-left
-        (0, 1)  # bottom-right
-        ]
-    
-    CORNER_NEIGHBORS = [
-        # directions indecies
-        (0, 1),  # corner 0: top
-        (1, 3),  # corner 1: top-right
-        (3, 5),  # corner 2: bottom-right
-        (5, 4),  # corner 3: bottom
-        (4, 2),  # corner 4: bottom-left
-        (2, 0)   # corner 5: top-left
-        ]
-                # corner indecies
-    EDGE_PAIRS = [(0,1),(1,2),(2,3),(3,4),(4,5),(5,0)]
+
 
     
     def _build(self):
@@ -112,10 +124,10 @@ class Board:
         self._wire_edges()
         self._create_ports(corner_map)
     
+    
     def _create_hexes(self):
         """ Generated ids in self._hexes in order of processing land & sea hex cordinates,
         ensures slicing to """    
-    
   
         for hex_id, land_cordinates in enumerate(
             self._game_map.land_hexes_cordinates
