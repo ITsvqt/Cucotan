@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.hex import Hex
     from core.edge import Edge
+    from shared.enums import PortType
 
 class Vertex:
 
@@ -25,6 +26,9 @@ class Vertex:
         
         # path to neighbors (same count as vertices )
         self._adjacent_edges: tuple[Edge, ...]  = ()
+        
+        # building on this hex provide port bonus
+        self._port: PortType | None = None
         
     def wire_hexes(self, adjacent_hexes: tuple[Hex]):
         self._adjacent_hexes = adjacent_hexes
@@ -53,15 +57,26 @@ class Vertex:
     @property
     def vertex_id(self):
         return self._vertex_id
+    
     @property
     def adjacent_hexes(self):
         return self._adjacent_hexes
+    
     @property
     def adjacent_vertices(self):
         return self._adjacent_vertices
+    
     @property
     def adjacent_edges(self):
         return self._adjacent_edges
+    
+    @property
+    def port(self):
+        return self._port
+    
+    @port.setter
+    def port(self, value: PortType):
+        self._port = value
     
 ## DUNDER
     def __repr__(self) -> str:
@@ -72,6 +87,15 @@ class Vertex:
     
     def __eq__(self, other: object) -> bool:
         return isinstance(other, Vertex) and self._vertex_id == other._vertex_id
+    
+    def __str__(self):
+        port_suffix = f" Port: {self._port.name}" if self.port else ""
+        sorted_hex_cords = sorted([(h.q, h.r) for h in self._adjacent_hexes])
+        
+        coords_str = " ".join(f"({q}, {r})" for q, r in sorted_hex_cords)
+        
+        return f"[{self._vertex_id:<3}]Vertex {coords_str:<26}" + port_suffix
+        
         
         
         

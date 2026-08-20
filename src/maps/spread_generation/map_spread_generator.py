@@ -18,7 +18,9 @@ Your game initialization code just picks whichever generator the player chose in
 
 class MapSpreadGenerator:
     
-    """ Generates a valid random distribution of game resources, based on the original game rules.
+    """ 
+    This implementation is the most competitive for game runs.
+    Generates a valid random distribution of game resources, based on the original game rules.
     MapGenerator accepts board obj.
     Call generate() method to run everything.
     """
@@ -40,21 +42,34 @@ class MapSpreadGenerator:
     
     def generate(self):
         self._generate_terrains()
+        self._generate_ports()
         # number_map = self._assign_numbers(terrain_map)
-        # port_map = self._assign_ports()
         
     
     
-    def _generate_terrains(self) -> dict[tuple[int,int], Terrain]:
-        """ Randomize resource spread across the map. """
+    def _generate_terrains(self):
+        """ Randomize terrain spread across the map's hexes. """
 
         terrain_pool = self._board._game_map.terrain_pool.copy()
         random.shuffle(terrain_pool)
         random.shuffle(terrain_pool)
         
         for i in range(len(terrain_pool)):
-            
             self._board.land_hexes[i].terrain = terrain_pool[i]
+            
+    def _generate_ports(self):
+        """ Randomize port type spread across the map's ports. """
+
+        port_pool = self._board.game_map.port_pool.copy()
+        random.shuffle(port_pool)
+        random.shuffle(port_pool)
+        
+        for i in range(len(port_pool)):
+            for el in self._board.ports_effect[i]:
+                el.port = port_pool[i]
+        
+        
+
         
     
     def _assign_numbers(

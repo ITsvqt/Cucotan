@@ -35,9 +35,6 @@ def setup_game() -> Board:
 
 b = setup_game()
 
-#* Test generate_terrains sets map land hexes  terrain attirbute
-for hex in b.hexes:
-    print(hex)
 
 
 

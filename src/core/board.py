@@ -53,7 +53,9 @@ class Board:
     def land_hexes(self) -> tuple[Hex]:
         return tuple(self._hex_map[h] for h in self._game_map.land_hexes_cordinates)
     
-    
+    @property
+    def ports_effect(self):
+        return self._ports_hex_and_vertices_effect
         
     def get_hex_neighoburs(self, hex_cords: tuple[int, int]) -> tuple[tuple[Hex], tuple[Hex]]:
         """ Should be called for a land hex\n
@@ -230,7 +232,7 @@ class Board:
             
     def _create_ports(self, corner_map: dict[frozenset, Vertex]):
         """ Prepare collection of hex and vertices for each port,
-        to be set by map generator after randomization. """
+        to be set by map spread generator. """
         
         for cords_direction in self._game_map.ports_cords_and_direction:
             

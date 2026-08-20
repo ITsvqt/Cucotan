@@ -32,5 +32,15 @@ board = Board(m1)
 #* Test generate_terrains sets map land hexes  terrain attirbute
 # for hex in b.hexes:
 #     print(hex)
+
+
+#* Test generate_ports sets sea hexes and land vertices port attribute
+#? manually tested the change of correct hex and vertex attributes
+# for h in b.hexes:
+#     print(h)
+
+# for vertex in b._vertices.values():
+#     print(vertex)
+    
         
     

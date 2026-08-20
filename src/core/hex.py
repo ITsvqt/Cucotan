@@ -84,6 +84,10 @@ class Hex:
     def port(self):
         return self._port
     
+    @port.setter
+    def port(self, value: PortType):
+        self._port = value
+    
     @property
     def q(self):
         return self._q
@@ -115,6 +119,7 @@ class Hex:
         return isinstance(other, Hex) and self._hex_id == other._hex_id
     
     def __str__(self):
-        return f"[{self._hex_id:<2}]Hex {f"({self.q}, {self.r})":<8} {self.terrain.value}: {self._number}"
+        port_suffix = f" Port: {self._port.name}" if self.port else ""
+        return f"[{self._hex_id:<2}]Hex {f"({self.q}, {self.r})":<8} {self.terrain.value}: {self._number}" + port_suffix
 
     
