@@ -40,6 +40,21 @@ class Board:
         self._build()
         self._ensure_valid_build() # small validation
         
+    
+    @property
+    def game_map(self) -> BaseMap:
+        return self._game_map
+    
+    @property
+    def hexes(self) -> tuple[Hex]:
+        return tuple(self._hexes.values())
+        
+    @property
+    def land_hexes(self) -> tuple[Hex]:
+        return tuple(self._hex_map[h] for h in self._game_map.land_hexes_cordinates)
+    
+    
+        
     def get_hex_neighoburs(self, hex_cords: tuple[int, int]) -> tuple[tuple[Hex], tuple[Hex]]:
         """ Should be called for a land hex\n
             param[0]: Target hex cordinates\n
@@ -96,6 +111,9 @@ class Board:
         self._create_ports(corner_map)
     
     def _create_hexes(self):
+        """ Generated ids in self._hexes in order of processing land & sea hex cordinates,
+        ensures slicing to """    
+    
   
         for hex_id, land_cordinates in enumerate(
             self._game_map.land_hexes_cordinates

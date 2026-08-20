@@ -28,5 +28,9 @@ board = Board(m1)
 
 # for i, s in enumerate(sea):
 #     print(f"s[{i}]: {s.q} {s.r}")
+
+#* Test generate_terrains sets map land hexes  terrain attirbute
+# for hex in b.hexes:
+#     print(hex)
         
     

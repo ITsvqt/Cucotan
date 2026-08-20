@@ -19,9 +19,25 @@ vertex.neighbors = adjacent vertices (distance rule enforcement)
 
 from maps.classic_catan_map import ClassicMap
 from core.board import Board
+from maps.spread_generation.map_spread_generator import MapSpreadGenerator
 
 
-m1 = ClassicMap()
-board = Board(m1)
+def setup_game() -> Board:
+    
+    m1 = ClassicMap()
+    board = Board(m1)
+    map_gen = MapSpreadGenerator(board)
+    
+    map_gen.generate()
+    
+    return board
+
+
+b = setup_game()
+
+#* Test generate_terrains sets map land hexes  terrain attirbute
+for hex in b.hexes:
+    print(hex)
+
 
 

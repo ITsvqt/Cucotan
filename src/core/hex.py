@@ -68,27 +68,38 @@ class Hex:
     @property
     def hex_id(self):
         return self._hex_id
+    
     @property
     def terrain(self):
         return self._terrain
+    @terrain.setter
+    def terrain(self, value:Terrain):
+        self._terrain = value
+    
     @property
     def number(self):
         return self._number
+    
     @property
     def port(self):
         return self._port
+    
     @property
     def q(self):
         return self._q
+    
     @property
     def r(self):
         return self._r    
+    
     @property
     def s(self):
         return self._s
+    
     @property
     def vertices(self):
         return self._adjacent_vertices
+    
     @property
     def edges(self):
         return self._adjacent_edges
@@ -102,5 +113,8 @@ class Hex:
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, Hex) and self._hex_id == other._hex_id
+    
+    def __str__(self):
+        return f"[{self._hex_id:<2}]Hex {f"({self.q}, {self.r})":<8} {self.terrain.value}: {self._number}"
 
     
