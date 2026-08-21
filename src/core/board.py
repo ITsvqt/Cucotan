@@ -63,7 +63,7 @@ class Board:
         
         
         self._build()
-        self._ensure_valid_build() # small validation
+        self._ensure_valid_map_topology_build() # small validation
         
     
     @property
@@ -83,39 +83,16 @@ class Board:
         return self._ports_hex_and_vertices_effect
     
 
-    def get_hex_by_cordinates(self, q: int, r: int):
+    def get_hex_by_cordinates(self, q: int, r: int) -> Hex:
         if (q,r) not in self._hex_map:
             raise ValueError(f"[get hex with cordinates] Hex cordinates({q}, {r}) can't be found in the board!")
         
         return self._hex_map[(q,r)]
         
+    def get_resource_hexes(self) -> set[Hex]:
+        return {h for h in self._hexes.values() if h.terrain not in [Terrain.SEA, Terrain.DESERT]}
+
         
-    def get_hex_neighoburs(self, hex_cords: tuple[int, int]) -> tuple[tuple[Hex], tuple[Hex]]:
-        """ Should be called for a land hex\n
-            param[0]: Target hex cordinates\n
-            Returns: neighour land and sea neigbour hexes separated in 2 tuples"""
-            
-        land_hexes = []
-        sea_hexes = []
-        
-        for dir in self._DIRECTIONS:
-            neighobur_cords = (hex_cords[0] + dir[0], hex_cords[1] + dir[1])
-            
-            try:
-                curr = self._hex_map[neighobur_cords]
-            except:
-                raise ValueError(f"Invalid land hex cords param: {hex_cords} ")
-            
-            if neighobur_cords in self._game_map.land_hexes_cordinates:
-                land_hexes.append(curr)
-            else:
-                sea_hexes.append(curr)
-            
-        return (tuple(land_hexes), tuple(sea_hexes))
-    
-    
-    
-    
     def _build(self):
         """ This sequence of methods creates the game topology objects [hex, vertex, edge],
         and wires them together respectively by their needs."""
@@ -282,7 +259,7 @@ class Board:
         
    
     # VALIDATION METHODS       
-    def _ensure_valid_build(self):
+    def _ensure_valid_map_topology_build(self):
         """ Compares count of generated hex,vertex, and edge against the human calculated expected amount. """
         
         

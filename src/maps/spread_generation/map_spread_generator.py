@@ -4,7 +4,8 @@ import random
 
 if TYPE_CHECKING:
     from core.board import Board
-    from shared.enums import Terrain, PortType
+    from core.hex import Hex
+    from shared.enums import Terrain
 
 
 
@@ -77,7 +78,7 @@ class MapSpreadGenerator:
         place_pip1_numbers"""
         
         numbers = self._board.game_map.number_pool
-        resource_hexes = [h for h in self._board.hexes if h.terrain not in [Terrain.SEA, Terrain.DESERT]]
+        resource_hexes = self._board.get_resource_hexes()
         
         self._ensure_numbers_and_resource_hexes_cnt_match(numbers, resource_hexes)
         
@@ -91,15 +92,30 @@ class MapSpreadGenerator:
         assigned = self._place_pip1_numbers(num_count)
         
     
-    def _place_pip1_numbers(self, num_count) -> dict:
+    def _place_pip1_numbers(self, resource_hexes: list[Hex], num_count) -> dict:
         """ Stongly depends on 2 and 12 numbers being present only once on the map."""
         
         assigned = {}
         combos = self._board.game_map.symetric_corner_hexes
         
+        
+        
         if combos:
             pair = random.choice(combos)
+            corner_hex1 = self._board.get_hex_by_cordinates(pair[0])
+            corner_hex2 = self._board.get_hex_by_cordinates(pair[1])
+        else:
+            border_hexes = [
+                h for h
+                in resource_hexes()
+                if any(h.terrain == Terrain.SEA for h in h.adjacent_hexes)
+            ]
+            
+            
+            
+
                             
+                        
         
         return assigned
         

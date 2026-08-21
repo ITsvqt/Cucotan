@@ -38,7 +38,17 @@ b = setup_game()
 
 
 
+resource_hexes = [h for h in b.hexes if h.terrain not in [Terrain.SEA, Terrain.DESERT]]
 
+border_hexes = [
+    h for h
+    in resource_hexes
+    if any(h.terrain == Terrain.SEA
+            for h in h.adjacent_hexes)
+]
 
+for h in border_hexes:
+    print(h)
 
+print(len(border_hexes))
 

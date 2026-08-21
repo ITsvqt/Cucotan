@@ -19,20 +19,20 @@ class BaseMap:
     
     _INIT_ERROR_KEY = "[On map init]"
     
-    
+
     def __init__(
         self,
         
         # RESOURCE HEXES DATA
         cnt_land_hex  : int,                            # count of land tiles
-        land_hexes_cordinates: set[ tuple[int, int] ], # coordinates of each land tile
+        land_hexes_cordinates: set[ tuple[int, int] ],  # coordinates of each land tile
         terrain_pool  : list[ Terrain ],                # 1 desert, 3 mountains, 3 mines, 4 pastures ...
-        cnt_resource_number    : int,                            # count of numbers for resource tiles
+        cnt_resource_number    : int,                   # count of numbers for resource tiles
         number_pool   : list[ int ],                    # 1x12, 2x8 ...
         
         # SEA HEXES DATA
         cnt_sea_hex   : int,                            # count of sea tiles
-        sea_hexes_cordinates : set[ tuple[int, int] ], # coordinates of each sea_hex
+        sea_hexes_cordinates : set[ tuple[int, int] ],  # coordinates of each sea_hex
         
         # ADDITIONAL GAME DATA
         cnt_port      : int,                            # count of ports
@@ -45,7 +45,7 @@ class BaseMap:
         cnt_edge      : int,                            # for validation of generated data
         
         # SYMETRIC CORNERS HEXES FOR LOWEST PIP DISTRIBUTION
-        symetric_pip1_combinations: tuple[tuple[tuple, tuple], ...] = None
+        symetric_pip1_combinations: set[tuple[tuple, tuple]] = None
         ):
         
         self._ensure_hex_data_lengths_match(
@@ -186,6 +186,7 @@ class BaseMap:
         """ Checks collections of hexes data for mismatching length. """
         
         
+        # expected cnt of land hex cordinates
         localization_msg = BaseMap._INIT_ERROR_KEY
         if cnt_land_hex != len(land_hexes_cordinates):
             raise ValueError(
@@ -193,18 +194,21 @@ class BaseMap:
                 f"Exp : [{cnt_land_hex}]\n"
                 f"Actl: [{len(land_hexes_cordinates)}]"
                 )
+        # expected cnt of land hex Terrain (Desert included)
         if cnt_land_hex != len(terrain_pool):
             raise ValueError(
                 f"{localization_msg} Illegal terrain pool count on map init!\n"
                 f"Exp : [{cnt_land_hex}]\n"
                 f"Actl: [{len(terrain_pool)}]"
             )
+        # expected cnt of resource hex numbers
         if cnt_number_pool != len(number_pool):
             raise ValueError(
                 f"{localization_msg} Illegal dice numbers for tarrain count!\n"
                 f"Exp : [{cnt_number_pool}]\n"
                 f"Actl: [{len(number_pool)}]"
             )
+        # expected cnt of sea hex cordinates
         if cnt_sea_hex != len(sea_hexes_cordinates):
             raise ValueError(
                 f"{localization_msg} Illegal sea hexes coordinates count!\n"
@@ -216,6 +220,7 @@ class BaseMap:
     def _ensure_port_data_length_match(cnt_port: int, ports_cords_and_dir: set, ports_pool: list[PortType]): 
         """ Checks collections of ports data for mismatching length. """
         
+        # expected cnt of port cordinates+direction
         if cnt_port != len(ports_cords_and_dir):
             raise ValueError(
                 f"{BaseMap._INIT_ERROR_KEY} Illegal ports cordinates count\n"
@@ -223,6 +228,7 @@ class BaseMap:
                 f"Actl: [{len(ports_cords_and_dir)}]"
             )
         
+        # expected cnt of PortType
         if cnt_port != len(ports_pool):
             raise ValueError(
                 f"{BaseMap._INIT_ERROR_KEY} Illegal ports counts\n"
