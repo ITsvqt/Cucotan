@@ -21,13 +21,13 @@ board = Board(m1)
 #     print(f"[{v.vertex_id}] {len(v.adjacent_edges)} edges")
 #     print()
         
-#* Test get_hex_neigbours result
-# land, sea = board.get_hex_neighoburs((-2,2))
-# for i, l in enumerate(land):
-#     print(f"l[{i}]: {l.q} {l.r}")
+#* Test board.wirte_hexes_neighbours()  result
 
-# for i, s in enumerate(sea):
-#     print(f"s[{i}]: {s.q} {s.r}")
+# for h in b.hexes:
+#     print(h)
+#     for i, n in enumerate(h.adjacent_hexes):
+#         print(f"\t[{i}]{n}")
+
 
 #* Test generate_terrains sets map land hexes  terrain attirbute
 # for hex in b.hexes:

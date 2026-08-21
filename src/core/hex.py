@@ -34,25 +34,6 @@ class Hex:
         self._port: PortType | None = None  # for sea hex with port
         
 
-        
-        
-        # deffensive assert to catch wrong __init__ modifications for the cordinates logic
-        assert self._q + self._r + self._s == 0, f"Invalid cube coordinates: q={self._q} r={self._r} s={self._s}"
-
-         
-    #* CLASS METHODS
-    # factory methods
-    # @classmethod
-    # def land(cls, hex_id:int, terrain: Terrain, number: int):
-    #     return cls(hex_id, terrain, number, port = None)
-
-    # @classmethod
-    # def desert(cls, hex_id:int):
-    #     return cls(hex_id, Terrain.DESERT, number = None, port = None)
-
-    # @classmethod
-    # def sea(cls, hex_id:int, port: PortType | None):
-    #     return cls(hex_id, Terrain.SEA, number = None, port = port)
 
     #* PROPERTIES
     @property
@@ -113,6 +94,8 @@ class Hex:
     @adjacent_edges.setter
     def adjacent_edges(self, value: tuple[Edge, ...]):
         self._adjacent_edges = value
+    
+    
     
     #* DUNDER
     def __repr__(self):

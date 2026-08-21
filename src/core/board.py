@@ -24,7 +24,7 @@ class Board:
     
     _INIT_ERROR_KEY = "[On board init]"
     
-    DIRECTIONS = [
+    _DIRECTIONS = [
         # 2D directions for the hex grid
         (0, -1),  # top-left
         (1, -1),  # top-right
@@ -34,7 +34,7 @@ class Board:
         (0, 1)  # bottom-right
         ]
     
-    CORNER_NEIGHBORS = [
+    _VERTEX_HEX_NEIGHBORS = [
         # directions indecies
         (0, 1),  # corner 0: top
         (1, 3),  # corner 1: top-right
@@ -43,8 +43,8 @@ class Board:
         (4, 2),  # corner 4: bottom-left
         (2, 0)   # corner 5: top-left
         ]
-                # corner indecies
-    EDGE_PAIRS = [(0,1),(1,2),(2,3),(3,4),(4,5),(5,0)]
+                # vertex hex neigbour indecies
+    _EDGE_PAIRS = [(0,1),(1,2),(2,3),(3,4),(4,5),(5,0)]
     
     
     def __init__(self, game_map: BaseMap):
@@ -90,7 +90,6 @@ class Board:
         return self._hex_map[(q,r)]
         
         
-        
     def get_hex_neighoburs(self, hex_cords: tuple[int, int]) -> tuple[tuple[Hex], tuple[Hex]]:
         """ Should be called for a land hex\n
             param[0]: Target hex cordinates\n
@@ -99,7 +98,7 @@ class Board:
         land_hexes = []
         sea_hexes = []
         
-        for dir in self.DIRECTIONS:
+        for dir in self._DIRECTIONS:
             neighobur_cords = (hex_cords[0] + dir[0], hex_cords[1] + dir[1])
             
             try:
@@ -115,14 +114,18 @@ class Board:
         return (tuple(land_hexes), tuple(sea_hexes))
     
     
-
-
+    
     
     def _build(self):
+        """ This sequence of methods creates the game topology objects [hex, vertex, edge],
+        and wires them together respectively by their needs."""
+        
         self._create_hexes()
-        corner_map = self._create_vertices_and_edges()
+        self._wire_hexes_neigbour_hexes()
+        vertices_neighobur_hexes_cordinates_map = self._create_vertices_and_edges()
         self._wire_edges()
-        self._create_ports(corner_map)
+        self._create_ports(vertices_neighobur_hexes_cordinates_map)
+    
     
     
     def _create_hexes(self):
@@ -148,6 +151,20 @@ class Board:
             self._hexes[hex_id] = new_hex
             self._hex_map[(q, r)] = new_hex
             
+    def _wire_hexes_neigbour_hexes(self):
+        
+        for hex in self._hex_map.values():
+            neighbours = []
+            for dir in self._DIRECTIONS:
+                
+                neigbour_cords = (hex.q + dir[0], hex.r + dir[1])
+                
+                if neigbour_cords in self._hex_map:
+                    neighbours.append(self._hex_map[neigbour_cords])
+                    
+            hex.adjacent_hexes = tuple(neighbours)
+
+            
     def _create_vertices_and_edges(self):
         
         """ Both in the same function, because they rely on the same hex logic.
@@ -172,11 +189,11 @@ class Board:
             
             # save each vertex to create edges between them
             # even if not created (map saves already created edges between vertices)
-            hex_corners: list[Vertex] = []
+            hex_vertices: list[Vertex] = []
             #* CREATING VERTICES
-            for dir_a, dir_b in self.CORNER_NEIGHBORS:
-                dqa, dra = self.DIRECTIONS[dir_a]
-                dqb, drb = self.DIRECTIONS[dir_b]
+            for dir_a, dir_b in self._VERTEX_HEX_NEIGHBORS:
+                dqa, dra = self._DIRECTIONS[dir_a]
+                dqb, drb = self._DIRECTIONS[dir_b]
                 
                 # 3 hex cordinates that meet at that corner
                 key = frozenset([(q, r), (q+dqa, r+dra), (q+dqb, r+drb)])
@@ -187,18 +204,18 @@ class Board:
                     self._vertices[vertex_id] = v
                     vertex_adj_vertices[vertex_id] = []
                     vertex_adj_edges[vertex_id] = []
-                    v.wire_hexes(tuple(self._hex_map[coords] for coords in key))
+                    v.adjacent_hexes = (tuple(self._hex_map[coords] for coords in key))
                     vertex_id += 1
 
                 # unique key for each vertex (the cordinates of 3 hexes it is on)
-                hex_corners.append(corner_map[key])
+                hex_vertices.append(corner_map[key])
             
             # save each edges to wire them with the hex
             # even if not created (creation is unique, referencing them is duplicate within hexes)
             hex_edges = []
             #* CREATING EDGES
-            for i, j in self.EDGE_PAIRS:
-                v1, v2 = hex_corners[i], hex_corners[j]
+            for i, j in self._EDGE_PAIRS:
+                v1, v2 = hex_vertices[i], hex_vertices[j]
                 
                 # 2 vertices that edge connect
                 key = frozenset([v1.vertex_id, v2.vertex_id])
@@ -211,35 +228,37 @@ class Board:
                     vertex_adj_vertices[v2.vertex_id].append(v1)
                     vertex_adj_edges[v1.vertex_id].append(e)
                     vertex_adj_edges[v2.vertex_id].append(e)
-                    e.wire_vertices(tuple((v1,v2)))
+                    e.adjacent_vertices = tuple((v1,v2))
                     edge_id += 1
                 hex_edges.append(edge_map[key])
             
             # wire the hex on the spot
             # since it doesn't require future iterations like vertices and edges
-            hex.wire(tuple(hex_corners), tuple(hex_edges))
             
-        for vertex in self._vertices.values():
-            vertex.wire_vertices(tuple(vertex_adj_vertices[vertex.vertex_id]))
-            vertex.wire_edges(tuple(vertex_adj_edges[vertex.vertex_id]))
+            hex.adjacent_vertices = tuple(hex_vertices)
+            hex.adjacent_edges = tuple(hex_edges)
+            
+        for v in self._vertices.values():
+            v.adjacent_vertices = (tuple(vertex_adj_vertices[v.vertex_id]))
+            v.adjacent_edges    = (tuple(vertex_adj_edges[v.vertex_id]))
             
         return corner_map
                 
                     
     def _wire_edges(self):
-        """ Wire hexes and edges last, because they depend on creating and wiring hexes and vertices. """
+        """ Wire edges: adjacent hexes and edges, last because they depend on creating and wiring hexes and vertices. """
         
         for edge in self._edges.values():
             v1, v2 = edge.adjacent_vertices
             
             adj_hexes = tuple(h for h in v1.adjacent_hexes if h in v2.adjacent_hexes)
-            edge.wire_hexes(adj_hexes)
+            edge.adjacent_hexes = adj_hexes
             
             adj_edges = tuple(
                 e for e in (set(v1.adjacent_edges) | set(v2.adjacent_edges))
                 if e is not edge
             )
-            edge.wire_edges(adj_edges)
+            edge.adjacent_edges = adj_edges
             
             
     def _create_ports(self, corner_map: dict[frozenset, Vertex]):
@@ -300,7 +319,7 @@ class Board:
                     f"{loctn_msg} Port data at index [{i}] malformed!\n"
                     f"Exp : [3] Hex Vertex Vertex\n"
                     f"Actl: {len(port_data)}"
-                )    
+                )
             
         
     
