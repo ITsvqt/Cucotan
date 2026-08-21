@@ -38,18 +38,7 @@ class Hex:
         
         # deffensive assert to catch wrong __init__ modifications for the cordinates logic
         assert self._q + self._r + self._s == 0, f"Invalid cube coordinates: q={self._q} r={self._r} s={self._s}"
-              
 
-    
-    def wire(self,
-        adjacent_vertices: tuple[Vertex, ...],
-        adjacent_edges:    tuple[Edge, ...]
-        ) -> None:
-        
-        """ Called once by Board after all vertices and edges are created. """
-        
-        self._adjacent_vertices = adjacent_vertices
-        self._adjacent_edges    = adjacent_edges    
          
     #* CLASS METHODS
     # factory methods
