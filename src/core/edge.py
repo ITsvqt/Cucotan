@@ -27,41 +27,40 @@ class Edge:
         # From 2 to 4
         # All possible edges from the 2 vertices it connects( excluding self )
         self._adjacent_edges: tuple[Edge, ...] = ()
-        
-    def wire_vertices(self, adjacent_vertices: tuple[Vertex, Vertex]):
-        self._adjacent_vertices = adjacent_vertices
-        
-    def wire_hexes(self, adjacent_hexes: tuple[Hex, ...]):
-        self._adjacent_hexes = adjacent_hexes
-        
-    def wire_edges(self, adjacent_edges: tuple[Edge]):
-        self._adjacent_edges = adjacent_edges
-        
-    def wire(self,
-        adjacent_hexes:    tuple[Hex, ...],
-        adjacent_vertices: tuple[Vertex, Vertex],
-        adjacent_edges:    tuple[Edge, ...]
-        ) -> None:
-        
-        """ Called once by Board after all vertices and edges are created. """
-    
-        self._adjacent_hexes    = adjacent_hexes
-        self._adjacent_vertices = adjacent_vertices
-        self._adjacent_edges    = adjacent_edges   
+
         
     #* PROPERTIES
     @property
     def edge_id(self):
         return self._edge_id
-    @property
-    def adjacent_vertices(self):
-        return self._adjacent_vertices
+    
+    
     @property
     def adjacent_hexes(self):
         return self._adjacent_hexes
+    
+    @adjacent_hexes.setter
+    def adjacent_hexes(self, value: tuple[Hex, ...]):
+        self._adjacent_hexes = value
+        
+        
+    @property
+    def adjacent_vertices(self):
+        return self._adjacent_vertices
+    
+    @adjacent_vertices.setter
+    def adjacent_vertices(self, value: tuple[Vertex, ...]):
+        self._adjacent_vertices = value
+
+
     @property
     def adjacent_edges(self):
         return self._adjacent_edges
+    
+    @adjacent_edges.setter
+    def adjacent_edges(self, value: tuple[Edge, ...]):
+        self._adjacent_edges = value
+    
     
     #* DUNDER
     def __repr__(self) -> str:
