@@ -20,6 +20,7 @@ class Hex:
         terrain = None
         ):
         
+        self._adjacent_hexes: tuple[Hex, ...] = ()       # 6 for land, fewer for sea hexes
         self._adjacent_vertices: tuple[Vertex, ...] = () # 6 for land, fewer for sea's outer ring
         self._adjacent_edges:    tuple[Edge  , ...] = () # same count as vertices
         
@@ -101,12 +102,28 @@ class Hex:
         return self._s
     
     @property
-    def vertices(self):
-        return self._adjacent_vertices
+    def adjacent_hexes(self):
+        return self._adjacent_hexes
+    
+    @adjacent_hexes.setter
+    def adjacent_hexes(self, value: tuple[Hex, ...]):
+        self._adjacent_hexes = value
     
     @property
-    def edges(self):
+    def adjacent_vertices(self):
+        return self._adjacent_vertices
+    
+    @adjacent_vertices.setter
+    def adjacent_vertices(self, value: tuple[Vertex, ...]):
+        self._adjacent_vertices = value
+    
+    @property
+    def adjacent_edges(self):
         return self._adjacent_edges
+    
+    @adjacent_edges.setter
+    def adjacent_edges(self, value: tuple[Edge, ...]):
+        self._adjacent_edges = value
     
     #* DUNDER
     def __repr__(self):
