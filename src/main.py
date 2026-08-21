@@ -36,19 +36,14 @@ def setup_game() -> Board:
 
 b = setup_game()
 
-
+b.hexes
 
 resource_hexes = [h for h in b.hexes if h.terrain not in [Terrain.SEA, Terrain.DESERT]]
 
-border_hexes = [
-    h for h
-    in resource_hexes
-    if any(h.terrain == Terrain.SEA
-            for h in h.adjacent_hexes)
-]
+#* test place pip1 numbers
 
-for h in border_hexes:
+pip1_hexes = [h for h in b.hexes if h.number in [2,12]]
+
+for h in pip1_hexes:
     print(h)
-
-print(len(border_hexes))
 

@@ -83,11 +83,11 @@ class Board:
         return self._ports_hex_and_vertices_effect
     
 
-    def get_hex_by_cordinates(self, q: int, r: int) -> Hex:
-        if (q,r) not in self._hex_map:
-            raise ValueError(f"[get hex with cordinates] Hex cordinates({q}, {r}) can't be found in the board!")
+    def get_hex_by_cordinates(self, cords: tuple[int, int]) -> Hex:
+        if cords not in self._hex_map:
+            raise ValueError(f"[get hex with cordinates] Hex cordinates({cords[0]}, {cords[1]}) can't be found in the board!")
         
-        return self._hex_map[(q,r)]
+        return self._hex_map[cords]
         
     def get_resource_hexes(self) -> set[Hex]:
         return {h for h in self._hexes.values() if h.terrain not in [Terrain.SEA, Terrain.DESERT]}

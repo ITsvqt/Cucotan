@@ -102,5 +102,6 @@ class ClassicMap(BaseMap):
             self._PORTS_POOL,
             self._CNT_HEX,
             self._CNT_VERTEX,
-            self._CNT_EDGE
+            self._CNT_EDGE,
+            self._SYMETRIC_CORNERS
         )

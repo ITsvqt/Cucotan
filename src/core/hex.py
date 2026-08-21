@@ -51,6 +51,10 @@ class Hex:
     def number(self):
         return self._number
     
+    @number.setter
+    def number(self, value: int):
+        self._number = value
+    
     @property
     def port(self):
         return self._port
