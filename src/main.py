@@ -36,14 +36,12 @@ def setup_game() -> Board:
 
 b = setup_game()
 
-b.hexes
 
-resource_hexes = [h for h in b.hexes if h.terrain not in [Terrain.SEA, Terrain.DESERT]]
 
-#* test place pip1 numbers
+#* Test generate numbers
+# b.hexes
 
-pip1_hexes = [h for h in b.hexes if h.number in [2,12]]
+# resource_hexes = [h for h in b.hexes if h.terrain not in [Terrain.SEA, Terrain.DESERT]]
 
-for h in pip1_hexes:
-    print(h)
-
+# for h in b.hexes:
+#     print(h)

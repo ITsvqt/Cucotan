@@ -84,3 +84,11 @@ board = Board(m1)
 #     print(h)
 
 # print(len(border_hexes))
+
+
+#* test place pip1 numbers
+
+# pip1_hexes = [h for h in b.hexes if h.number in [2,12]]
+
+# for h in pip1_hexes:
+#     print(h)

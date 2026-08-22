@@ -78,24 +78,25 @@ class MapSpreadGenerator:
         """ Randomize numbers spread across the map's hexes.
         place_pip1_numbers"""
         
-        numbers = self._board.game_map.number_pool
+        numbers = self._board.game_map.number_pool.copy()
         resource_hexes = self._board.get_resource_hexes()
+
+        self._place_pip1_numbers(resource_hexes)
+        numbers.remove(12)
+        numbers.remove(2)
         
-        
-        num_count = {}
-        for num in numbers:
-            if num in num_count:
-                num_count[num] += 1
-            else:
-                num_count[num] = 1
-                
-        assigned = self._place_pip1_numbers(resource_hexes, num_count)
+        random.shuffle(numbers)
+        random.shuffle(numbers)
+
+        for i, h in enumerate(resource_hexes):
+            h.number = numbers[i]
+
+
         
     
-    def _place_pip1_numbers(self, resource_hexes: set[Hex], num_count) -> dict:
+    def _place_pip1_numbers(self, resource_hexes: set[Hex]):
         """ Stongly depends on 2 and 12 numbers being present only once on the map."""
         
-        assigned = {}
         combos = self._board.game_map.symetric_corner_hexes
         h1 = h2 = None
         if combos:
@@ -112,7 +113,7 @@ class MapSpreadGenerator:
 
             #* done
         else:
-            #todo
+            #todo: if map doesnt provide symetric_corner collection 
             border_hexes = [
                 h for h
                 in resource_hexes
@@ -121,23 +122,10 @@ class MapSpreadGenerator:
         
         h1.number = 2
         h2.number = 12
-            
-            
-            
+        resource_hexes.remove(h1)
+        resource_hexes.remove(h2)
 
-                            
-                        
-        
-        return assigned
-        
 
-        
-        
-        
-        
-
-        
-    
     def _assign_numbers(
         self,
         terrain_map: dict[tuple[int, int], Terrain]
