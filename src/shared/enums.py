@@ -34,11 +34,6 @@ class PortType(Enum):
     ORE      = 'Ore'  # auto():auto()
     GENERIC  = 'Generic'  # auto():auto()
 
-
-class BuildingType(Enum):
-    """ What can be placed on a vertex. """
-    SETTLEMENT = 'Settlement'
-    CITY       = 'City'
     
 class GamePhase(Enum):
     """ Top-level phases the game engine moves through. """
@@ -48,7 +43,25 @@ class GamePhase(Enum):
     ENDED          = auto()
     
     
-# ---* Lookup tables (not enums, but live here as they are static/shared) *---
+class TurnSubPhase(Enum):
+    PRE_ROLL  = auto()   # player must roll (or play a knight/road-building before)
+    POST_ROLL = auto()   # player may build/trade/play dev cards, then end turn
+
+
+class DevCard(Enum):
+    KNIGHT         = auto()
+    ROAD_BUILDING  = auto()
+    YEAR_OF_PLENTY = auto()
+    MONOPOLY       = auto()
+    VICTORY_POINT  = auto()
+    
+class PlayerColour(Enum):
+    RED    = auto()
+    GREEN  = auto()
+    BLUE   = auto()
+    YELLOW = auto()
+    
+#* Lookup tables (not enums, but live here as they are static/shared)
 
 TERRAIN_TO_RESOURCE: dict[Terrain, Resource | None] = {
     Terrain.FOREST:   Resource.WOOD,

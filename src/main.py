@@ -17,11 +17,12 @@ each edge has exactly 2 endpoint vertices
 vertex.neighbors = adjacent vertices (distance rule enforcement)
 """
 
+from src.engine.game import Game
 from maps.classic_catan_map import ClassicMap
 from core.board import Board
 from maps.spread_generation.map_spread_generator import MapSpreadGenerator
 from shared.enums import Terrain
-
+from state.trade import TradeOffer
 
 def setup_game() -> Board:
     
@@ -45,3 +46,7 @@ b = setup_game()
 
 # for h in b.hexes:
 #     print(h)
+
+t1 = TradeOffer()
+
+print(TradeOffer.__annotations__)
