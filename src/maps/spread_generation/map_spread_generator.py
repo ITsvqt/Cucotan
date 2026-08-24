@@ -16,7 +16,7 @@ Swap Generators on the Fly: You can create an abstract base class or protocol Ma
 Then implement StandardMapGenerator, DesertOnlyGenerator, or RandomClusterGenerator.
 Your game initialization code just picks whichever generator the player chose in the settings menu and passes board to it.
 """
-
+#!  class implementation  is not neccessary, can use simple functions
 
 class MapSpreadGenerator:
     

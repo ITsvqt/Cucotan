@@ -24,15 +24,6 @@ from maps.spread_generation.map_spread_generator import MapSpreadGenerator
 from shared.enums import Terrain
 from state.trade import TradeOffer
 
-def setup_game() -> Board:
-    
-    m1 = ClassicMap()
-    board = Board(m1)
-    map_gen = MapSpreadGenerator(board)
-    
-    map_gen.generate()
-    
-    return board
 
 
 b = setup_game()
