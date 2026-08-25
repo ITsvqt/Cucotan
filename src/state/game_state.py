@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 class GameState:
 
-    def __init__(self):
+    def __init__(self, players: list[PlayerState]):
         
         # Players 
         self._players: list[PlayerState] = [] # index == turn order
@@ -48,3 +48,8 @@ class GameState:
 
         # Winner 
         self._winner_id: int | None               # set when phase == ENDED
+        
+        
+    @property
+    def current_player(self):
+        return self._players[self._current_player_index]

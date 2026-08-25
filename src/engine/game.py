@@ -23,6 +23,10 @@ class Game:
         self._board: Board = self._setup_board()
         self._state: GameState = self._setup_state(player_colours)
         
+    @property
+    def state(self) -> GameState:
+        return self._state
+    
     #** Setup ***********************************************************           
 
     def _setup_board(self) -> Board:
@@ -38,13 +42,4 @@ class Game:
         return GameState(players)
         
         
-        
-def setup_game_board() -> Board:
     
-    m1 = ClassicMap()
-    board = Board(m1)
-    map_gen = MapSpreadGenerator(board)
-    
-    map_gen.generate()
-    
-    return board
