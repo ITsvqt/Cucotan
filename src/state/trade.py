@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING
-from shared.enums import Resource
+from enums import Resource
 
 if TYPE_CHECKING:
     pass

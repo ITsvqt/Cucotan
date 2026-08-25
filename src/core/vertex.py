@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.hex import Hex
     from core.edge import Edge
-    from shared.enums import PortType
+    from enums import PortType
 
 class Vertex:
 

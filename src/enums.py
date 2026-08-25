@@ -55,7 +55,7 @@ class DevCard(Enum):
     MONOPOLY       = auto()
     VICTORY_POINT  = auto()
     
-class PlayerColour(Enum):
+class PlayerColor(Enum):
     RED    = auto()
     GREEN  = auto()
     BLUE   = auto()

@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import random
-from shared.enums import Terrain
+from enums import Terrain
 
 if TYPE_CHECKING:
     from core.board import Board

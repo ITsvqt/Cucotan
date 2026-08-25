@@ -1,16 +1,17 @@
 from typing import TYPE_CHECKING
 
+from enums import Resource, DevCard, PlayerColor
 if TYPE_CHECKING:
-    from shared.enums import Resource, DevCard, PlayerColour
+    pass
 
 
 class PlayerState:
     
 
-    def __init__ (self, player_id: int,  color: PlayerColour):
+    def __init__ (self, player_id: int,  color: PlayerColor):
         
         self._player_id: int = player_id
-        self._color:     PlayerColour = color
+        self._color:     PlayerColor = color
         self._name:      str   = f"Pesho {self._player_id}"
 
         # Board presence (IDs into Board topology)

@@ -9,7 +9,7 @@ from maps.classic_catan_map import ClassicMap
 from maps.spread_generation.map_spread_generator import MapSpreadGenerator
 
 if TYPE_CHECKING:
-    from shared.enums import PlayerColour
+    from enums import PlayerColor
 
 class Game:
     """
@@ -18,7 +18,7 @@ class Game:
     The UI calls these methods and receives back the new state to render.
     """
     
-    def __init__(self, player_colours: list[PlayerColour]):
+    def __init__(self, player_colours: list[PlayerColor]):
         
         self._board: Board = self._setup_board()
         self._state: GameState = self._setup_state(player_colours)
@@ -37,7 +37,7 @@ class Game:
         
         return board
     
-    def _setup_state(self, player_colours: list[PlayerColour]) -> GameState:
+    def _setup_state(self, player_colours: list[PlayerColor]) -> GameState:
         players = [ PlayerState(i, c) for i, c in enumerate(player_colours)]
         return GameState(players)
         

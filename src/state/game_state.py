@@ -2,7 +2,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from shared.enums import DevCard, GamePhase, TurnSubPhase
+    from enums import DevCard, GamePhase, TurnSubPhase
     from state.player_state import PlayerState
     from state.trade import TradeOffer
 

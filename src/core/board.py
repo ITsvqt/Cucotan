@@ -4,7 +4,7 @@ from core.hex import Hex
 from core.vertex import Vertex
 from core.edge import Edge
 from typing import TYPE_CHECKING
-from shared.enums import Terrain
+from enums import Terrain
 
 if TYPE_CHECKING:
     from maps.base_map.base_map import BaseMap

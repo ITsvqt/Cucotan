@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from shared.enums import Terrain
+from enums import Terrain
 
 if TYPE_CHECKING:
-    from shared.enums import PortType
+    from enums import PortType
 
 class BaseMap:
     

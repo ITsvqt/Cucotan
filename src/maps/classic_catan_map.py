@@ -1,6 +1,6 @@
 
 from maps.base_map.base_map import BaseMap
-from shared.enums import Terrain, PortType
+from enums import Terrain, PortType
 
 class ClassicMap(BaseMap):
     

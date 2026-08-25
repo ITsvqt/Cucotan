@@ -21,7 +21,7 @@ from src.engine.game import Game
 from src.maps.classic_catan_map import ClassicMap
 from src.core.board import Board
 from src.maps.spread_generation.map_spread_generator import MapSpreadGenerator
-from src.shared.enums import Terrain
+from enums import Terrain
 from src.state.trade import TradeOffer
 
 
