@@ -52,4 +52,4 @@ class GameState:
         
     @property
     def current_player(self):
-        return self._players[self._current_player_index]
+        return self._players[self._current_player_index] #! player index might be 1 based, sub -1 to get correct el
