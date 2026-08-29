@@ -1,0 +1,20 @@
+svg {
+    filter: drop-shadow(0 4px 24px #0008);
+}
+
+.hex-land   { stroke: #2a1a0a; stroke-width: 2; }
+.hex-sea    { fill: #1e4a6e; stroke: #1a3a5a; stroke-width: 1; }
+
+.terrain-Hill     { fill: #c0522a; }
+.terrain-Forest   { fill: #2d7a2d; }
+.terrain-Pasture  { fill: #7abf3a; }
+.terrain-Field    { fill: #d4a820; }
+.terrain-Mountain { fill: #888888; }
+.terrain-Desert   { fill: #e0c87a; }
+.terrain-Sea      { fill: #1e4a6e; }
+
+.hex-number-circle     { fill: #f5e6c8; stroke: #8b6914; stroke-width: 1.5; }
+.hex-number-circle.hot { stroke: #cc2200; stroke-width: 2.5; }
+.hex-number     { font-size: 11px; font-weight: bold; fill: #2a1a0a; text-anchor: middle; dominant-baseline: central; }
+.hex-number.hot { fill: #cc2200; }
+.hex-label      { font-size: 7px; fill: #ffffffaa; text-anchor: middle; dominant-baseline: central; pointer-events: none; }

@@ -16,17 +16,21 @@ ________
 each edge has exactly 2 endpoint vertices
 vertex.neighbors = adjacent vertices (distance rule enforcement)
 """
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent / 'src'))
+
 
 from src.engine.game import Game
-from src.maps.classic_catan_map import ClassicMap
-from src.core.board import Board
-from src.maps.spread_generation.map_spread_generator import MapSpreadGenerator
-from enums import Terrain
-from src.state.trade import TradeOffer
+from enums import Terrain, PlayerColor
 
 
 
-b = setup_game()
+
+game = Game([PlayerColor.RED, PlayerColor.BLUE])
+
+for h in game._board.hexes:
+    print(h)
 
 
 
@@ -37,7 +41,3 @@ b = setup_game()
 
 # for h in b.hexes:
 #     print(h)
-
-t1 = TradeOffer()
-
-print(TradeOffer.__annotations__)

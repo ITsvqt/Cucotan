@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Outrun — Lobby {{ lobby_id }}</title>
+    <link rel="stylesheet" href="{% static 'game/base.css' %}">
+    <link rel="stylesheet" href="{% static 'game/lobby/lobby.css' %}">
+
+</head>
+<body>
+    <h1>Outrun</h1>
+    <p class="subtitle">Lobby #{{ lobby_id }}</p>
+
+    <button id="start-btn" onclick="startGame()">Start Game</button>
+    <button id="leave-btn" onclick="leaveLobby()">Leave</button>
+
+    <div id="status"></div>
+
+    <form>{% csrf_token %}</form>
+    <script src="{% static 'game/lobby/lobby.js' %}"></script>
+</body>
+</html>

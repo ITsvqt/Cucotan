@@ -1,0 +1,30 @@
+#start-btn {
+    padding: 14px 40px;
+    background: #1e3a5a;
+    border: 1px solid #2a5a8a;
+    border-radius: 8px;
+    color: #e8d5a3;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.15s;
+}
+
+#start-btn:hover { background: #2a4a6a; }
+
+#leave-btn {
+    padding: 10px 30px;
+    background: transparent;
+    border: 1px solid #6a2a4a;
+    border-radius: 8px;
+    color: #e8a3c0;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+#leave-btn:hover { background: #3a1e2a; }

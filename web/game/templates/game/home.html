@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Outrun</title>
+    <link rel="stylesheet" href="{% static 'game/base.css' %}">
+    <link rel="stylesheet" href="{% static 'game/home/home.css' %}">
+</head>
+<body>
+
+<h1>Outrun</h1>
+<p class="subtitle">Settlers of Catan</p>
+
+<form>{% csrf_token %}</form>
+
+<div class="lobby-window">
+  <div class="lobby-header">Open Lobbies</div>
+  <div class="lobby-list" id="lobby-list">
+    <div class="lobby-empty" id="empty-msg">No open lobbies</div>
+  </div>
+</div>
+
+<div class="create-row">
+  <button class="btn-create" onclick="createLobby(4)">Create Game</button>
+  <button class="btn-create duel" onclick="createLobby(2)">Create 1v1</button>
+</div>
+
+<div id="status"></div>
+
+<script src="{% static 'game/home/home.js' %}"></script>
+</body>
+</html>

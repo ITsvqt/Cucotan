@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Outrun — Board</title>
+    <link rel="stylesheet" href="{% static 'game/base.css' %}">
+    <link rel="stylesheet" href="{% static 'game/board/board.css' %}">
+</head>
+<body>
+    <h1>Outrun</h1>
+    <div id="status">Loading board…</div>
+    <svg id="board" width="600" height="580" viewBox="-300 -290 600 580"></svg>
+    <form>{% csrf_token %}</form>
+    <script src="{% static 'game/board/board.js' %}"></script>
+</body>
+</html>
