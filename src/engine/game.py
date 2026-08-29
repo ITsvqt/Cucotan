@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+
 from typing import TYPE_CHECKING
 
 from core.board import Board
@@ -27,14 +29,18 @@ class Game:
     def state(self) -> GameState:
         return self._state
     
+    def get_hexes_json(self):
+        return [hex_.to_json() for hex_ in self._board.hexes]
+    
     #** Setup ***********************************************************           
 
     def _setup_board(self) -> Board:
         
         map_ = ClassicMap()
         board = Board(map_)
-        MapSpreadGenerator(board).generate
+        MapSpreadGenerator(board).generate()
         
+
         return board
     
     def _setup_state(self, player_colours: list[PlayerColor]) -> GameState:

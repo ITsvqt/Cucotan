@@ -1,4 +1,4 @@
-from lobby.Lobby import Lobby
+from lobby.Lobby import Lobby, LobbyStatus
 
 import uuid
 
@@ -11,15 +11,33 @@ class LobbyManager():
         
         self._player_tokens: dict[str, int] = {} # player_uuid: lobby_id
         
+        
     def _next_id(self):
         self._lobby_counter += 1
         return self._lobby_counter
     
+    def get_lobby(self, lobby_id: int):
+        return self._lobbies.get(lobby_id)
+    
+    def get_open_lobbies_json(self):
+        return [
+            lobby.to_json()
+            for lobby in self._lobbies.values()
+            if lobby.status == LobbyStatus.OPEN
+        ]
+
+    def start_lobby(self, lobby_id: int) -> bool:
+        lobby = self._lobbies.get(lobby_id)
+        if lobby is None:
+            return False
+        lobby.start_game()
+        return True
+    
     def create_lobby(self, max_players: int) -> tuple[str, int]:
         """ Creates lobby, adds it to the manager, and adds the creator to that lobby. """
 
-        new_lobby = Lobby(max_players)
         lobby_id = self._next_id()
+        new_lobby = Lobby(lobby_id, max_players)
         
         self._lobbies[lobby_id] = new_lobby
         

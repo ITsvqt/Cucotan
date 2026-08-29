@@ -99,6 +99,14 @@ class Hex:
     def adjacent_edges(self, value: tuple[Edge, ...]):
         self._adjacent_edges = value
     
+    def to_json(self):
+        return {
+            'hex_id': self._hex_id,
+            'q': self._q,
+            'r': self._r,
+            'terrain': self._terrain.value,
+            'number': self._number if self._number else 0
+        }
     
     
     #* DUNDER
