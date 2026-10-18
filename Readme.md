@@ -2,19 +2,19 @@
 
 <img src="assets/banner.png" alt="Catan Recreation Banner" width="100%" />
 
-# 🎲 Catan Recreation
+#  Catan Recreation
 
 ### A digital recreation of the classic board game built with Python.
 
 <br>
 
-> 🚧 **Currently under active development**
+> **Currently under active development**
 
 </div>
 
 ---
 
-## 📖 About
+## About
 
 This project is a recreation of the classic board game **Catan**, developed in Python.
 
